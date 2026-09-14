@@ -1,0 +1,29 @@
+### A real example
+### Suppose you're checking 3 files:
+
+ls file1.txt file2.txt file3.txt
+
+### Maybe file1.txt and file2.txt exist, but file3.txt doesn't.
+
+### Normally you get:
+
+file1.txt
+file2.txt
+ls: cannot access 'file3.txt': No such file or directory
+
+### Now suppose you're running a script and don't want errors cluttering the terminal. You can do:
+
+ls file1.txt file2.txt file3.txt 2> errors.log
+
+### Your terminal shows only:
+
+file1.txt
+file2.txt
+
+### And errors.log contains:
+
+ls: cannot access 'file3.txt': No such file or directory
+
+### Then later:
+
+cat errors.log

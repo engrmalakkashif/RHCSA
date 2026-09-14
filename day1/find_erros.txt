@@ -1,0 +1,1 @@
+find: ‘/day1/’: Not a directory
