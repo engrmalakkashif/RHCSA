@@ -1,0 +1,421 @@
+================================================================================
+MODULE 2: OPERATE RUNNING SYSTEMS - QUICK REFERENCE GUIDE
+================================================================================
+
+┌─ SHUTDOWN AND REBOOT ───────────────────────────────────────────────────────┐
+│                                                                              │
+│  shutdown -h now                - Power off immediately                     │
+│  shutdown -r now                - Reboot immediately                        │
+│  shutdown -h +5                 - Power off in 5 minutes                    │
+│  shutdown -c                    - Cancel scheduled shutdown                 │
+│  systemctl poweroff              - Power off                                 │
+│  systemctl reboot                - Reboot                                    │
+│  systemctl halt                  - Stop system (keep power)                  │
+│  poweroff                        - Power off                                 │
+│  reboot                          - Reboot                                    │
+│  halt                            - Halt (stop)                               │
+│  shutdown --show                 - Show scheduled shutdown                   │
+│                                                                              │
+│  USAGE NOTES:                                                                │
+│  - shutdown is graceful (broadcasts message)                                │
+│  - poweroff/halt/reboot are faster                                          │
+│  - Use shutdown for user systems                                            │
+│  - Use poweroff/reboot for scripts                                          │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ BOOT TARGETS AND RUNLEVELS ────────────────────────────────────────────────┐
+│                                                                              │
+│  systemctl get-default           - Show current default target              │
+│  systemctl list-units --type=target                                         │
+│                                  - List all targets                          │
+│  systemctl set-default graphical.target                                     │
+│                                  - Set default target                        │
+│  systemctl isolate multi-user.target                                        │
+│                                  - Switch to target (no reboot)             │
+│                                                                              │
+│  COMMON TARGETS:                                                             │
+│  graphical.target               - GUI (runlevel 5)                          │
+│  multi-user.target              - CLI with network (runlevel 3)             │
+│  rescue.target                  - Single-user mode                          │
+│  emergency.target               - Minimal rescue                            │
+│  poweroff.target                - Poweroff                                  │
+│  reboot.target                  - Reboot                                    │
+│                                                                              │
+│  BOOT PARAMETER:                                                             │
+│  At GRUB menu, press 'e' then add:                                          │
+│  systemd.unit=multi-user.target  - Boot to CLI                              │
+│  systemd.unit=rescue.target      - Boot to rescue                           │
+│  Press Ctrl+X to boot                                                       │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ INTERRUPT BOOT PROCESS (RESET ROOT PASSWORD) ──────────────────────────────┐
+│                                                                              │
+│  1. At GRUB menu: Press 'e' to edit                                         │
+│  2. Find 'linux' line                                                        │
+│  3. Add 'rd.break' before 'ro'                                              │
+│  4. Press Ctrl+X to boot                                                    │
+│  5. At dracut> prompt:                                                      │
+│     mount -o remount,rw /sysroot                                            │
+│     chroot /sysroot                                                         │
+│     passwd root                 - Set new password                          │
+│     exit (twice)                - Exit and continue boot                    │
+│                                                                              │
+│  ALTERNATE METHOD (rd.recovery):                                             │
+│  In GRUB edit: replace 'ro' with 'rw init=/bin/bash'                        │
+│  This mounts / as writable immediately                                      │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PROCESS MANAGEMENT ────────────────────────────────────────────────────────┐
+│                                                                              │
+│  ps aux                         - All processes with details                │
+│  ps aux --sort=-%cpu            - Sort by CPU usage                         │
+│  ps aux --sort=-%mem            - Sort by memory usage                      │
+│  top                            - Real-time process monitor                 │
+│  top -b -n 1                    - Single snapshot (batch mode)              │
+│  top -u username                - Processes by user                         │
+│  htop                           - Enhanced process monitor                  │
+│                                                                              │
+│  TOP NAVIGATION:                                                             │
+│  P = Sort by CPU          q = Quit                                          │
+│  M = Sort by Memory       k = Kill process                                  │
+│  R = Reverse sort         Space = Refresh                                   │
+│  h = Help                                                                   │
+│                                                                              │
+│  PROCESS COMMANDS:                                                           │
+│  kill -TERM 1234          - Graceful kill                                   │
+│  kill -KILL 1234          - Force kill                                      │
+│  kill -9 1234             - Force kill (shorthand)                          │
+│  pkill processname        - Kill by name                                    │
+│  killall -u username      - Kill all by user                                │
+│                                                                              │
+│  PRIORITY:                                                                   │
+│  Nice range: -20 (highest) to +19 (lowest)                                  │
+│  Default: 0                                                                 │
+│                                                                              │
+│  nice -n 10 command       - Start with low priority (+10)                   │
+│  renice -n 5 -p 1234      - Change priority of running process             │
+│  ps -o pid,nice,cmd       - Show nice values                                │
+│                                                                              │
+│  CPU AFFINITY:                                                               │
+│  taskset -c 0 command     - Run on CPU 0 only                               │
+│  taskset -cp 0 1234       - Bind PID 1234 to CPU 0                          │
+│  taskset -cp 1234         - Show CPU binding of process                     │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TUNING PROFILES ───────────────────────────────────────────────────────────┐
+│                                                                              │
+│  tuned-adm list                 - Show available profiles                   │
+│  tuned-adm active               - Show current profile                      │
+│  tuned-adm profile_info         - Info on active profile                    │
+│  sudo tuned-adm profile balanced - Switch to balanced profile              │
+│  sudo tuned-adm profile performance                                         │
+│                                  - Switch to performance                    │
+│  sudo tuned-adm off             - Turn off tuned                            │
+│                                                                              │
+│  COMMON PROFILES:                                                            │
+│  balanced              - Default, balance performance/power                 │
+│  powersave            - Minimize energy consumption                         │
+│  performance          - Maximum performance                                │
+│  latency-performance  - Low latency (gaming/audio)                          │
+│  throughput-performance - Optimize throughput                               │
+│  virtual-guest        - Optimization for VMs                                │
+│  desktop              - Desktop optimization                                │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SYSTEM LOGS AND JOURNALCTL ────────────────────────────────────────────────┐
+│                                                                              │
+│  journalctl               - View entire journal (paged)                     │
+│  journalctl -n 20         - Last 20 entries                                 │
+│  journalctl -f            - Follow journal (real-time)                      │
+│  journalctl -b            - Current boot                                    │
+│  journalctl -b -1         - Previous boot                                   │
+│  journalctl -u sshd       - Entries from sshd service                       │
+│  journalctl -u sshd -n 10 - Last 10 sshd entries                            │
+│                                                                              │
+│  FILTERING:                                                                  │
+│  journalctl -p err        - Error priority and above                        │
+│  journalctl -p warning    - Warning priority and above                      │
+│  journalctl -p info       - Info and above                                  │
+│  journalctl -p debug      - Debug and above                                 │
+│                                                                              │
+│  TIME FILTERING:                                                             │
+│  journalctl --since "1 hour ago"                                            │
+│  journalctl --since "2024-01-15"                                            │
+│  journalctl --until "2024-01-16"                                            │
+│  journalctl --since today                                                   │
+│                                                                              │
+│  OUTPUT FORMATS:                                                             │
+│  journalctl -o json       - JSON format                                     │
+│  journalctl -o short      - Short format (default)                          │
+│  journalctl -o verbose    - Verbose format                                  │
+│  journalctl -o cat        - Just messages                                   │
+│                                                                              │
+│  COMMON SEARCHES:                                                            │
+│  journalctl | grep "error"                                                  │
+│  journalctl -u sshd | grep "Failed password"                                │
+│  journalctl | grep "warning"                                                │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PRESERVE JOURNAL STORAGE ──────────────────────────────────────────────────┐
+│                                                                              │
+│  ENABLE PERSISTENT STORAGE:                                                 │
+│  sudo mkdir -p /var/log/journal                                             │
+│  sudo chmod 2755 /var/log/journal                                           │
+│  sudo systemctl restart systemd-journald                                    │
+│                                                                              │
+│  VERIFY STORAGE:                                                             │
+│  journalctl --disk-usage      - Show journal size                           │
+│  ls /var/log/journal/         - Check journal directory                     │
+│                                                                              │
+│  JOURNAL MAINTENANCE:                                                        │
+│  journalctl --vacuum-size=500M   - Limit to 500MB                           │
+│  journalctl --vacuum-time=30d    - Keep 30 days                             │
+│  journalctl --verify             - Check integrity                          │
+│  sudo systemctl rotate-journals  - Rotate journals                          │
+│                                                                              │
+│  CONFIGURATION FILE:                                                         │
+│  /etc/systemd/journald.conf                                                 │
+│  Important settings:                                                        │
+│  Storage=persistent         - Enable persistent                             │
+│  SystemMaxUse=1G            - Total size limit                              │
+│  MaxRetentionSec=30day      - Retention period                              │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SYSTEM LOG LOCATIONS ──────────────────────────────────────────────────────┐
+│                                                                              │
+│  /var/log/messages           - General system log (RHEL)                    │
+│  /var/log/syslog             - General system log (Debian)                  │
+│  /var/log/auth.log           - Authentication logs                          │
+│  /var/log/secure             - Secure auth (RHEL)                           │
+│  /var/log/audit/audit.log    - Audit logs                                   │
+│  /var/log/boot.log           - Boot messages                                │
+│  /var/log/cron               - Cron job logs                                │
+│  /var/log/maillog            - Mail server                                  │
+│  /var/log/httpd/             - Apache logs                                  │
+│  /var/log/nginx/             - Nginx logs                                   │
+│  /var/log/mysql/             - MySQL logs                                   │
+│                                                                              │
+│  VIEWING:                                                                    │
+│  tail -f /var/log/messages        - Follow in real-time                    │
+│  grep "error" /var/log/messages   - Search for errors                      │
+│  head -20 /var/log/auth.log       - First 20 lines                         │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SERVICE MANAGEMENT ────────────────────────────────────────────────────────┐
+│                                                                              │
+│  systemctl start service         - Start service                            │
+│  systemctl stop service          - Stop service                             │
+│  systemctl restart service       - Restart service                          │
+│  systemctl reload service        - Reload config (no restart)               │
+│  systemctl status service        - Check status                             │
+│                                                                              │
+│  systemctl enable service        - Start on boot                            │
+│  systemctl disable service       - Don't start on boot                      │
+│  systemctl enable --now service  - Enable and start                         │
+│  systemctl disable --now service - Disable and stop                         │
+│  systemctl is-enabled service    - Check if enabled                         │
+│  systemctl is-active service     - Check if running                         │
+│                                                                              │
+│  systemctl list-unit-files --type=service --state=enabled                  │
+│                                  - Show enabled services                    │
+│  systemctl list-dependencies service                                        │
+│                                  - Show dependencies                        │
+│                                                                              │
+│  COMMON SERVICES:                                                            │
+│  sshd                - SSH server                                           │
+│  httpd               - Apache web server                                    │
+│  nginx               - Nginx web server                                     │
+│  mysqld              - MySQL database                                       │
+│  postfix             - Mail server                                          │
+│  named               - DNS service                                          │
+│  nfs-server          - NFS file sharing                                     │
+│  smb                 - Samba file sharing                                   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SECURE FILE TRANSFER ──────────────────────────────────────────────────────┐
+│                                                                              │
+│  SCP - Secure Copy:                                                          │
+│  scp localfile user@host:/remote/path/                                      │
+│  scp user@host:/remote/file ./local/path/                                   │
+│  scp -r /local/dir user@host:/remote/path/       - Recursive copy          │
+│  scp -p file user@host:/path/                    - Preserve attributes      │
+│  scp -P 2222 file user@host:/path/               - Non-standard port        │
+│                                                                              │
+│  RSYNC - Synchronization:                                                    │
+│  rsync -av /source/ /dest/                       - Synchronize              │
+│  rsync -av --delete /source/ /dest/              - Delete extra files      │
+│  rsync -avz /source/ user@host:/dest/            - With compression        │
+│  rsync -av --exclude='*.log' /source/ /dest/     - Exclude patterns        │
+│  rsync -avn /source/ /dest/                      - Dry run (test only)     │
+│                                                                              │
+│  SFTP - Interactive:                                                         │
+│  sftp user@host                 - Start SFTP session                        │
+│  put localfile                  - Upload file                               │
+│  get remotefile                 - Download file                             │
+│  mput *.txt                     - Upload multiple                           │
+│  mget *.txt                     - Download multiple                         │
+│  exit                           - Close SFTP session                        │
+│                                                                              │
+│  SSH KEYS (passwordless):                                                    │
+│  ssh-keygen -t rsa -b 4096      - Generate key pair                         │
+│  ssh-copy-id user@host          - Copy key to server                        │
+│  # Now SCP/SFTP work without password                                       │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PROCESS PRIORITY COMPARISON ───────────────────────────────────────────────┐
+│                                                                              │
+│  Nice Value     Priority        Usage                                      │
+│  ───────────    ────────────    ──────────────────────────────              │
+│  -20            Highest         Critical tasks, NOT recommended             │
+│  -10 to -5      High            Important services                          │
+│  0              Normal          Default (regular processes)                 │
+│  5 to 10        Low             Background tasks                            │
+│  15 to 19       Very Low        Idle background work                        │
+│                                                                              │
+│  EXAMPLES:                                                                   │
+│  nice -n -10 critical_app   - High priority (root only)                     │
+│  nice -n 10 backup.sh       - Low priority background                       │
+│  nice -n 19 cleanup.sh      - Idle priority                                 │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ UPTIME AND BOOT INFORMATION ───────────────────────────────────────────────┐
+│                                                                              │
+│  uptime                         - System uptime and load                    │
+│  who -b                         - Last boot time                            │
+│  last reboot                    - Reboot history                            │
+│  systemctl show-environment | grep BOOT                                     │
+│                                  - Boot environment                         │
+│  journalctl --list-boots        - Boot records                              │
+│  dmesg                          - Kernel messages                           │
+│  dmesg | tail -20               - Last 20 kernel messages                   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON SCENARIOS ──────────────────────────────────────────────────────────┐
+│                                                                              │
+│  1. IDENTIFY RUNAWAY PROCESS:                                                │
+│     ps aux --sort=-%cpu | head -2                                           │
+│     top (press P for CPU)                                                   │
+│     kill -9 PID                                                             │
+│                                                                              │
+│  2. RESET ROOT PASSWORD:                                                     │
+│     Boot to GRUB menu                                                       │
+│     Press 'e', add 'rd.break', Ctrl+X                                       │
+│     mount -o remount,rw /sysroot                                            │
+│     chroot /sysroot                                                         │
+│     passwd root                                                             │
+│                                                                              │
+│  3. ENABLE PERSISTENT JOURNAL:                                               │
+│     sudo mkdir -p /var/log/journal                                          │
+│     sudo systemctl restart systemd-journald                                 │
+│                                                                              │
+│  4. SWITCH TO GRAPHICAL MODE:                                                │
+│     sudo systemctl isolate graphical.target                                 │
+│                                                                              │
+│  5. GRACEFUL SHUTDOWN:                                                       │
+│     sudo shutdown -h +5 "maintenance message"                               │
+│     # Cancel: sudo shutdown -c                                              │
+│                                                                              │
+│  6. START SERVICE ON BOOT:                                                   │
+│     sudo systemctl enable httpd                                             │
+│     sudo systemctl enable --now httpd  # Enable and start                   │
+│                                                                              │
+│  7. COPY FILES SECURELY:                                                     │
+│     scp file.txt user@host:/path/                                           │
+│     Or rsync -av /source/ user@host:/dest/                                  │
+│                                                                              │
+│  8. PRIORITY ADJUSTMENT:                                                     │
+│     nice -n 15 long_task        - Start low priority                        │
+│     renice -n 5 -p PID          - Adjust running process                    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ EXAM TIPS ─────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  1. Know the difference:                                                     │
+│     - systemctl isolate (immediate, no reboot)                              │
+│     - systemctl set-default (default on next boot)                          │
+│                                                                              │
+│  2. Service commands in order:                                               │
+│     enable + start = service runs and starts on boot                        │
+│                                                                              │
+│  3. Process killing priorities:                                              │
+│     - Try SIGTERM first (graceful)                                          │
+│     - Use SIGKILL only if needed                                            │
+│                                                                              │
+│  4. Journal filtering combines:                                              │
+│     journalctl -u httpd -p err --since "1 hour ago"                        │
+│                                                                              │
+│  5. Boot parameter 'rd.break':                                               │
+│     - Remember: mount -o remount,rw /sysroot                               │
+│     - Then: chroot /sysroot                                                 │
+│                                                                              │
+│  6. SCP vs RSYNC:                                                             │
+│     - SCP: Simple one-time copy                                             │
+│     - RSYNC: Synchronization and resume support                             │
+│                                                                              │
+│  7. Tuned profiles:                                                          │
+│     - balanced: Default                                                     │
+│     - performance: Maximum speed                                            │
+│     - powersave: Minimum energy                                             │
+│                                                                              │
+│  8. Log persistence:                                                         │
+│     - Default: logs cleared on reboot (/run/log/journal/)                   │
+│     - Persistent: survives reboot (/var/log/journal/)                       │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+COMMAND EXECUTION FLOW EXAMPLES
+================================================================================
+
+SCENARIO 1: SERVICE TROUBLESHOOTING
+  systemctl status httpd          # Check status
+  journalctl -u httpd -n 20       # View recent logs
+  systemctl restart httpd         # Restart service
+  systemctl status httpd          # Verify running
+
+SCENARIO 2: PERFORMANCE TUNING
+  tuned-adm active                # Current profile
+  top -b -n 1 --sort=-%cpu        # Top CPU processes
+  nice -n 15 process_name         # Lower priority
+  tuned-adm profile performance   # If high performance needed
+
+SCENARIO 3: FILE BACKUP AND TRANSFER
+  tar -czf backup.tar.gz /data    # Create compressed backup
+  scp backup.tar.gz user@host:/backups/  # Transfer securely
+  ssh user@host ls -la /backups/  # Verify transfer
+
+SCENARIO 4: BOOT TARGET CHANGE
+  systemctl get-default           # Current target
+  sudo systemctl set-default multi-user.target  # Change
+  sudo reboot                     # Apply change
+  systemctl get-default           # Verify after reboot
+
+================================================================================
+
+QUICK CHECKLIST FOR EXAM
+
+  [ ] Understand graphical vs multi-user targets
+  [ ] Practice boot interruption (rd.break)
+  [ ] Know systemctl service commands
+  [ ] Understand journalctl filtering
+  [ ] Know process priority (nice/renice)
+  [ ] Practice SCP file transfer
+  [ ] Know tuned profiles
+  [ ] Understand graceful vs forced shutdown
+  [ ] Know log locations
+  [ ] Understand systemd journal persistence
+
+================================================================================
