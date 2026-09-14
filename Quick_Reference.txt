@@ -1,0 +1,355 @@
+================================================================================
+RHCSA EXAM PREPARATION - ESSENTIAL TOOLS QUICK REFERENCE
+================================================================================
+
+┌─ BASIC SHELL COMMANDS ──────────────────────────────────────────────────────┐
+│                                                                              │
+│  pwd                 - Print working directory                              │
+│  cd /path            - Change directory                                     │
+│  ls -la              - List files (long, all)                               │
+│  mkdir dirname       - Create directory                                     │
+│  rm file             - Remove file                                          │
+│  cp source dest      - Copy file                                            │
+│  mv old new          - Move/rename file                                     │
+│  touch filename      - Create empty file                                    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ I/O REDIRECTION ───────────────────────────────────────────────────────────┐
+│                                                                              │
+│  cmd > file          - Redirect stdout to file (overwrite)                  │
+│  cmd >> file         - Redirect stdout to file (append)                     │
+│  cmd 2> file         - Redirect stderr to file                              │
+│  cmd &> file         - Redirect both stdout and stderr                      │
+│  cmd < file          - Use file as input                                    │
+│  cmd | cmd2          - Pipe stdout of cmd to cmd2                           │
+│  cmd | tee file      - Display AND save to file                             │
+│                                                                              │
+│  EXAMPLES:                                                                   │
+│  ls > files.txt                - Save directory listing                     │
+│  grep error log.txt 2> err     - Redirect error separately                  │
+│  cat file | wc -l              - Count lines using pipe                     │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ GREP & TEXT PATTERNS ──────────────────────────────────────────────────────┐
+│                                                                              │
+│  grep pattern file              - Search for pattern in file                │
+│  grep -i pattern file           - Case-insensitive search                   │
+│  grep -n pattern file           - Show line numbers                         │
+│  grep -c pattern file           - Count matching lines                      │
+│  grep -v pattern file           - Invert (show non-matching)                │
+│  grep -A 2 pattern file         - Show 2 lines after match                  │
+│  grep "^pattern" file           - Start of line                             │
+│  grep "pattern$" file           - End of line                               │
+│  grep "[0-9]" file              - Contains digit                            │
+│  grep -E "pat1|pat2" file       - Multiple patterns                         │
+│  grep -r pattern /dir           - Recursive search                          │
+│                                                                              │
+│  EXAMPLES:                                                                   │
+│  grep "root" /etc/passwd        - Find root user                            │
+│  grep -v "^#" config.txt        - Exclude comments                          │
+│  grep "^[a-z]" file.txt         - Lines starting with letter                │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SSH & REMOTE ACCESS ───────────────────────────────────────────────────────┐
+│                                                                              │
+│  ssh user@host                  - Connect to remote system                  │
+│  ssh -p 2222 user@host          - Connect to non-standard port              │
+│  ssh user@host "command"        - Execute remote command                    │
+│  ssh-keygen -t rsa -b 4096      - Generate SSH key pair                     │
+│  ssh-copy-id -i ~/.ssh/id_rsa.pub user@host  - Copy key to server          │
+│  scp file user@host:/path       - Copy file to remote                       │
+│  scp user@host:/path/file .     - Copy file from remote                     │
+│  sftp user@host                 - Secure file transfer                      │
+│                                                                              │
+│  SSH KEY SETUP:                                                              │
+│  1. ssh-keygen -t rsa -b 4096                                               │
+│  2. ssh-copy-id user@host                                                   │
+│  3. ssh user@host (no password!)                                            │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ USERS & PERMISSIONS ───────────────────────────────────────────────────────┐
+│                                                                              │
+│  whoami              - Current username                                     │
+│  id                  - User ID and groups                                   │
+│  groups              - Groups for current user                              │
+│  su - username       - Switch to user with environment                      │
+│  sudo command        - Execute as root                                      │
+│  su                  - Switch to root                                       │
+│                                                                              │
+│  PERMISSIONS (u/g/o = user/group/other):                                    │
+│  chmod 755 file      - rwxr-xr-x (755)                                      │
+│  chmod 644 file      - rw-r--r-- (644)                                      │
+│  chmod u+x file      - Add user execute                                     │
+│  chmod g-w file      - Remove group write                                   │
+│  chmod o=r file      - Others read only                                     │
+│  chmod a-x file      - Remove execute for all                               │
+│  chmod -R 755 dir    - Recursive change                                     │
+│                                                                              │
+│  OWNERSHIP:                                                                  │
+│  chown newuser file  - Change owner                                         │
+│  chown user:group file  - Change user and group                             │
+│  chown -R user:group dir  - Recursive change                                │
+│                                                                              │
+│  OCTAL NOTATION:                                                             │
+│  r=4, w=2, x=1       - 7 = rwx, 5 = r-x, 4 = r--, 0 = ---                   │
+│  755 = rwxr-xr-x (scripts, directories)                                     │
+│  644 = rw-r--r-- (files, documents)                                         │
+│  600 = rw------- (private files)                                            │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ ARCHIVING & COMPRESSION ───────────────────────────────────────────────────┐
+│                                                                              │
+│  tar -cf archive.tar files         - Create uncompressed tar                │
+│  tar -czf archive.tar.gz files     - Create gzip compressed tar             │
+│  tar -cjf archive.tar.bz2 files    - Create bzip2 compressed tar            │
+│  tar -tf archive.tar               - List tar contents                      │
+│  tar -tzf archive.tar.gz           - List gzip tar contents                 │
+│  tar -xf archive.tar               - Extract tar                            │
+│  tar -xzf archive.tar.gz           - Extract gzip tar                       │
+│  tar -xjf archive.tar.bz2          - Extract bzip2 tar                      │
+│  tar -xf archive.tar -C /path      - Extract to specific directory          │
+│                                                                              │
+│  gzip file                  - Compress file (creates file.gz)               │
+│  gunzip file.gz             - Decompress file                               │
+│  bzip2 file                 - Better compression (creates file.bz2)         │
+│  bunzip2 file.bz2           - Decompress bzip2                              │
+│  xz file                    - Best compression (creates file.xz)            │
+│  unxz file.xz               - Decompress xz                                 │
+│                                                                              │
+│  EXAMPLES:                                                                   │
+│  tar -czf backup.tar.gz /home/user  - Backup home directory                 │
+│  tar -tzf backup.tar.gz | head      - View archive contents                 │
+│  tar -xzf backup.tar.gz -C /tmp     - Extract to /tmp                       │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ FILE & DIRECTORY OPERATIONS ───────────────────────────────────────────────┐
+│                                                                              │
+│  cat file                   - Display file contents                         │
+│  head -5 file               - First 5 lines                                 │
+│  tail -5 file               - Last 5 lines                                  │
+│  tail -f file               - Follow file (new lines)                       │
+│  wc file                    - Count lines, words, bytes                     │
+│  wc -l file                 - Count lines only                              │
+│  du -h file                 - File size (human readable)                    │
+│  du -sh directory           - Directory size total                          │
+│  ls -R directory            - Recursive listing                             │
+│  find . -name "*.txt"       - Find files matching pattern                   │
+│  find / -size +10M          - Find files larger than 10MB                   │
+│  file filename              - Determine file type                           │
+│  stat file                  - Detailed file information                     │
+│                                                                              │
+│  GLOBBING PATTERNS:                                                          │
+│  *                 - Any characters                                         │
+│  ?                 - Single character                                       │
+│  [abc]             - Character class (a, b, or c)                           │
+│  [a-z]             - Range (lowercase letters)                              │
+│  [0-9]             - Digits                                                 │
+│                                                                              │
+│  EXAMPLES:                                                                   │
+│  ls *.txt          - List all .txt files                                    │
+│  rm *.bak          - Delete all .bak files                                  │
+│  cp [0-9]*.log /backup/  - Copy logs starting with digit                   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ LINKS ─────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  SOFT LINKS (Symbolic):                                                     │
+│  ln -s /path/to/original /path/to/link  - Create symbolic link              │
+│  rm symlink                             - Delete link (original safe)       │
+│  readlink symlink                       - Show link target                   │
+│  ls -la                                 - Shows -> target                    │
+│                                                                              │
+│  HARD LINKS:                                                                 │
+│  ln original hardlink       - Create hard link (same inode)                 │
+│  ls -i                      - Show inode numbers                            │
+│  Deleting one doesn't affect others                                        │
+│  Cannot link across filesystems                                             │
+│  Cannot link directories                                                    │
+│                                                                              │
+│  USES:                                                                       │
+│  ln -s /etc/config ~/config     - Easy access to config                     │
+│  ln -s /usr/bin/python3 /usr/bin/python  - Create alias                    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TEXT EDITORS ──────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  VIM:                                                                        │
+│  i           - Insert mode (before cursor)                                  │
+│  a           - Append mode (after cursor)                                   │
+│  ESC         - Return to command mode                                       │
+│  :w          - Write (save)                                                 │
+│  :q          - Quit                                                         │
+│  :wq         - Write and quit                                               │
+│  :q!         - Quit without saving                                          │
+│  dd          - Delete line                                                  │
+│  yy          - Copy line                                                    │
+│  p           - Paste                                                        │
+│  /pattern    - Search                                                       │
+│  n           - Next match                                                   │
+│  u           - Undo                                                         │
+│                                                                              │
+│  NANO:                                                                       │
+│  Ctrl+X      - Exit (prompts to save)                                       │
+│  Ctrl+O      - Save                                                         │
+│  Ctrl+W      - Find                                                         │
+│  Ctrl+K      - Cut line                                                     │
+│  Ctrl+U      - Paste                                                        │
+│                                                                              │
+│  QUICK CREATE:                                                               │
+│  cat > file.txt << EOF                                                      │
+│  line 1                                                                     │
+│  line 2                                                                     │
+│  EOF                                                                        │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DOCUMENTATION ─────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  man command              - Manual page                                     │
+│  man -k keyword           - Search manual pages                             │
+│  man 5 file               - Configuration file documentation                │
+│  info command             - GNU info page                                   │
+│  whatis command           - One-line description                            │
+│  whereis command          - Find binary, source, man location               │
+│  which command            - Full path to command                            │
+│  command --help           - Command help                                    │
+│  help builtin             - Help for shell built-in                         │
+│  ls /usr/share/doc        - System documentation                            │
+│                                                                              │
+│  MAN PAGE NAVIGATION:                                                        │
+│  Space       - Page down                                                    │
+│  b           - Page up                                                      │
+│  /pattern    - Search                                                       │
+│  n           - Next match                                                   │
+│  N           - Previous match                                               │
+│  g           - Go to start                                                  │
+│  G           - Go to end                                                    │
+│  q           - Quit                                                         │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PRACTICAL COMMANDS CHEAT SHEET ────────────────────────────────────────────┐
+│                                                                              │
+│  # Find and replace in file                                                 │
+│  sed -i 's/old/new/g' file.txt                                              │
+│                                                                              │
+│  # Count files in directory                                                 │
+│  ls | wc -l                                                                 │
+│                                                                              │
+│  # View last 20 lines of log                                                │
+│  tail -20 /var/log/messages                                                 │
+│                                                                              │
+│  # Search and count occurrences                                             │
+│  grep -c "error" log.txt                                                    │
+│                                                                              │
+│  # Create backup of config                                                  │
+│  cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak                           │
+│                                                                              │
+│  # Archive directory with timestamp                                         │
+│  tar -czf backup_$(date +%Y%m%d).tar.gz /path/to/backup                     │
+│                                                                              │
+│  # Copy with verbose output                                                 │
+│  cp -v file1 file2                                                          │
+│                                                                              │
+│  # Show files larger than 100MB                                             │
+│  find / -size +100M -type f 2>/dev/null                                     │
+│                                                                              │
+│  # Grep multiple patterns                                                   │
+│  grep -E "error|warning|critical" log.txt                                   │
+│                                                                              │
+│  # Remove all .tmp files recursively                                        │
+│  find . -name "*.tmp" -delete                                               │
+│                                                                              │
+│  # Count words in file                                                      │
+│  wc -w file.txt                                                             │
+│                                                                              │
+│  # Sort and remove duplicates                                               │
+│  sort file.txt | uniq                                                       │
+│                                                                              │
+│  # Show differences between files                                           │
+│  diff file1.txt file2.txt                                                   │
+│                                                                              │
+│  # Execute multiple commands                                                │
+│  cd /tmp && pwd && ls -la                                                   │
+│                                                                              │
+│  # Chain commands with pipes                                                │
+│  cat file | grep "pattern" | wc -l                                          │
+│                                                                              │
+│  # View active processes                                                    │
+│  ps aux | grep process_name                                                 │
+│                                                                              │
+│  # Check disk space                                                         │
+│  df -h / && du -sh *                                                        │
+│                                                                              │
+│  # View listening ports                                                     │
+│  netstat -tlnp | grep :22                                                   │
+│                                                                              │
+│  # Monitor system in real-time                                              │
+│  top                                                                        │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+EXAM DAY TIPS
+================================================================================
+
+1. READ THE QUESTION CAREFULLY - Understand exactly what's needed
+2. USE MAN PAGES - They're available and excellent resource
+3. VERIFY YOUR WORK - Run commands to confirm they worked
+4. CHECK PERMISSIONS - Many tasks involve setting correct permissions
+5. BACKUP BEFORE CHANGES - Create backups of config files
+6. TEST SSH KEYS - Ensure key-based authentication works
+7. GREP PATTERNS - Practice regex patterns before exam
+8. ARCHIVE FORMATS - Know which compression to use
+9. SEARCH DOCUMENTATION - Use find, grep, man extensively
+10. TIME MANAGEMENT - Don't spend too long on one task
+
+================================================================================
+COMMAND HISTORY & RECALL
+================================================================================
+
+history              - Show command history (usually last 1000)
+!n                   - Execute command number n
+!!                   - Execute last command
+!string              - Execute last command starting with 'string'
+!?string             - Execute last command containing 'string'
+Ctrl+R               - Search command history (interactive)
+Ctrl+A               - Go to beginning of line
+Ctrl+E               - Go to end of line
+Ctrl+K               - Delete from cursor to end of line
+Ctrl+U               - Delete from cursor to beginning of line
+
+================================================================================
+FREQUENTLY USED PATHS
+================================================================================
+
+/etc/passwd          - User accounts
+/etc/shadow          - Password hashes (root only)
+/etc/group           - Group definitions
+/etc/ssh/sshd_config - SSH daemon config
+/etc/hosts           - Static hostname mappings
+/var/log/            - System logs
+/var/log/auth.log    - Authentication log
+/var/log/messages    - System messages
+/home/               - User home directories
+/root/               - Root home directory
+/tmp/                - Temporary files
+/usr/share/doc/      - System documentation
+~/.ssh/              - SSH directory
+~/.bash_history      - Command history
+~/.bashrc            - Shell configuration
+
+================================================================================
+
+Good luck on your RHCSA exam!
+Remember: Read carefully, work methodically, verify everything!
+
+================================================================================
