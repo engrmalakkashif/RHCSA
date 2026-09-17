@@ -1,0 +1,338 @@
+================================================================================
+MODULE 3: CONFIGURE LOCAL STORAGE - QUICK REFERENCE GUIDE
+================================================================================
+
+┌─ DISK PARTITIONING ─────────────────────────────────────────────────────────┐
+│                                                                              │
+│  List Disks:                                                                 │
+│  lsblk                          - Block devices tree                         │
+│  lsblk -f                       - Show filesystems and UUIDs                 │
+│  sudo fdisk -l                  - Detailed disk listing                      │
+│  sudo parted -l                 - Partition table details                    │
+│                                                                              │
+│  Using fdisk (GPT/MBR):                                                      │
+│  sudo fdisk /dev/sda            - Enter interactive mode                     │
+│  g                              - Create GPT partition table (DESTRUCTIVE!)  │
+│  n                              - Create new partition                       │
+│  d                              - Delete partition                          │
+│  p                              - Print partition table                      │
+│  w                              - Write changes and exit                     │
+│  q                              - Quit without saving                        │
+│                                                                              │
+│  Partition Sizing in fdisk:                                                  │
+│  +50G                           - 50GB partition                             │
+│  +50%                           - 50% of disk                                │
+│  (Enter)                        - Use all remaining space                    │
+│                                                                              │
+│  Using parted (Advanced):                                                    │
+│  sudo parted /dev/sda           - Interactive mode                          │
+│  mklabel gpt                    - Create GPT table                           │
+│  mkpart primary 0% 50%          - Create partition (0%-50%)                  │
+│  rm 2                           - Delete partition 2                         │
+│  print                          - Show partitions                            │
+│  quit                           - Exit                                       │
+│                                                                              │
+│  Applying Changes:                                                            │
+│  sudo partprobe /dev/sda        - Notify kernel of partition changes        │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHYSICAL VOLUMES (LVM) ────────────────────────────────────────────────────┐
+│                                                                              │
+│  Create Physical Volume:                                                     │
+│  sudo pvcreate /dev/sda3        - Create PV on partition                    │
+│  sudo pvcreate /dev/sdb1 /dev/sdb2  - Multiple PVs                          │
+│                                                                              │
+│  View Physical Volumes:                                                      │
+│  sudo pvs                       - List all PVs (summary)                    │
+│  sudo pvdisplay                 - Detailed PV information                   │
+│  sudo pvdisplay /dev/sda3       - Info on specific PV                       │
+│  sudo pvs -o +pv_used,pv_free   - Show used and free space                  │
+│                                                                              │
+│  Remove Physical Volume:                                                     │
+│  sudo pvmove /dev/sda3          - Move data from PV                         │
+│  sudo vgreduce vg_name /dev/sda3    - Remove PV from VG                     │
+│  sudo pvremove /dev/sda3        - Remove PV metadata                        │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ VOLUME GROUPS (LVM) ───────────────────────────────────────────────────────┐
+│                                                                              │
+│  Create Volume Group:                                                        │
+│  sudo vgcreate vg_storage /dev/sdb1                                          │
+│                              - Create VG with one PV                         │
+│  sudo vgcreate vg_storage /dev/sdb1 /dev/sdb2                               │
+│                              - Create VG with multiple PVs                   │
+│  sudo vgcreate -s 8m vg_storage /dev/sdb1                                   │
+│                              - Create VG with 8MB extent size               │
+│                                                                              │
+│  View Volume Groups:                                                         │
+│  sudo vgs                       - List all VGs (summary)                    │
+│  sudo vgdisplay                 - Detailed VG information                   │
+│  sudo vgdisplay vg_storage      - Info on specific VG                       │
+│  sudo vgs -o name,size,free     - Custom columns                            │
+│                                                                              │
+│  Extend Volume Group:                                                        │
+│  sudo vgextend vg_storage /dev/sdb2                                          │
+│                              - Add PV to existing VG                         │
+│  sudo vgextend vg_storage /dev/sdc1 /dev/sdc2                               │
+│                              - Add multiple PVs                              │
+│                                                                              │
+│  Remove PV from Volume Group:                                                │
+│  sudo vgreduce vg_storage /dev/sdb2  - Remove PV from VG                    │
+│                              (Must move data first with pvmove)             │
+│                                                                              │
+│  Remove Volume Group:                                                        │
+│  sudo vgremove vg_storage       - Remove entire VG                          │
+│  sudo vgremove -f vg_storage    - Force removal                             │
+│  Note: All LVs must be removed first                                        │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ LOGICAL VOLUMES (LVM) ─────────────────────────────────────────────────────┐
+│                                                                              │
+│  Create Logical Volume:                                                      │
+│  sudo lvcreate -L 20G -n lv_home vg_storage                                  │
+│                              - Create 20GB LV                                │
+│  sudo lvcreate -l 50%VG -n lv_var vg_storage                                 │
+│                              - Use 50% of VG space                           │
+│  sudo lvcreate -l 100%FREE -n lv_data vg_storage                             │
+│                              - Use all free space                            │
+│                                                                              │
+│  View Logical Volumes:                                                       │
+│  sudo lvs                       - List all LVs (summary)                    │
+│  sudo lvdisplay                 - Detailed LV information                   │
+│  sudo lvdisplay -m vg/lv        - Show LV mapping to PVs                    │
+│  sudo lvs -o +devices           - Show which devices hold LV                │
+│                                                                              │
+│  Extend Logical Volume:                                                      │
+│  sudo lvextend -L +10G /dev/vg_storage/lv_home                              │
+│                              - Add 10GB to LV                               │
+│  sudo lvextend -L 50G /dev/vg_storage/lv_home                               │
+│                              - Resize to exactly 50GB                       │
+│  sudo lvextend -l +100%FREE /dev/vg_storage/lv_data                         │
+│                              - Use all remaining VG space                    │
+│                                                                              │
+│  Extend Filesystem After LV Expansion:                                       │
+│  sudo resize2fs /dev/vg_storage/lv_home     (ext4)                          │
+│  sudo xfs_growfs /mount/point                (xfs)                          │
+│                                                                              │
+│  Reduce Logical Volume (DANGEROUS - backup first!):                          │
+│  sudo umount /home             - Unmount first                              │
+│  sudo e2fsck -f /dev/vg_storage/lv_home     (check filesystem)              │
+│  sudo resize2fs /dev/vg_storage/lv_home 15G (shrink filesystem)             │
+│  sudo lvreduce -L 15G /dev/vg_storage/lv_home  (shrink LV)                  │
+│  sudo mount /dev/vg_storage/lv_home /home   (remount)                       │
+│  Note: XFS cannot be shrunk!                                                │
+│                                                                              │
+│  Delete Logical Volume:                                                      │
+│  sudo lvremove /dev/vg_storage/lv_backup    - Remove LV                     │
+│  sudo lvremove -f /dev/vg_storage/lv_backup - Force removal                 │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ MOUNTING BY UUID OR LABEL ─────────────────────────────────────────────────┐
+│                                                                              │
+│  Find UUID and Label:                                                        │
+│  sudo blkid                     - Show all UUIDs and labels                 │
+│  sudo blkid /dev/vg_storage/lv_home  - UUID of specific LV                  │
+│  lsblk -f                       - Show UUIDs and filesystems                │
+│  sudo blkid -s UUID -o value /dev/sda1  - Only UUID value                   │
+│                                                                              │
+│  Set Label:                                                                  │
+│  sudo e2label /dev/vg_storage/lv_home home_data    (ext4)                   │
+│  sudo xfs_admin -L backup /dev/vg_storage/lv_data  (xfs)                    │
+│  sudo e2label /dev/vg_storage/lv_home ""           (remove label)           │
+│                                                                              │
+│  Manual Mount by UUID/Label:                                                 │
+│  sudo mount UUID=abc123 /home  - Mount using UUID                           │
+│  sudo mount LABEL=home_data /home  - Mount using label                      │
+│                                                                              │
+│  Permanent Mount (/etc/fstab):                                               │
+│  Edit: sudo vi /etc/fstab                                                    │
+│                                                                              │
+│  By UUID:                                                                    │
+│  UUID=abc123def456 /home ext4 defaults,nofail 0 2                           │
+│                                                                              │
+│  By Label:                                                                   │
+│  LABEL=home_data /home ext4 defaults,nofail 0 2                             │
+│                                                                              │
+│  By Device:                                                                  │
+│  /dev/vg_storage/lv_home /home ext4 defaults,nofail 0 2                     │
+│                                                                              │
+│  Common Options:                                                             │
+│  defaults    - rw, suid, dev, exec, auto, nouser, async                    │
+│  nofail      - Don't fail boot if mount fails                              │
+│  nouser      - Non-root users can't mount                                   │
+│  ro          - Read-only                                                    │
+│  acl         - Enable ACLs                                                  │
+│  errors=remount-ro - Remount read-only on error                            │
+│                                                                              │
+│  Test fstab Changes:                                                         │
+│  sudo mount -a                 - Mount all in fstab (test)                 │
+│  mount | grep /home            - Verify mount                               │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SWAP SPACE MANAGEMENT ─────────────────────────────────────────────────────┐
+│                                                                              │
+│  On Partition:                                                               │
+│  sudo mkswap /dev/sdb2         - Format as swap                             │
+│  sudo swapon /dev/sdb2         - Enable swap                                │
+│                                                                              │
+│  On Logical Volume:                                                          │
+│  sudo lvcreate -L 4G -n lv_swap vg_storage  (create LV)                     │
+│  sudo mkswap /dev/vg_storage/lv_swap        (format)                        │
+│  sudo swapon /dev/vg_storage/lv_swap        (enable)                        │
+│                                                                              │
+│  On File:                                                                    │
+│  sudo fallocate -l 4G /swapfile (create 4GB file)                           │
+│  sudo chmod 600 /swapfile       (set permissions)                           │
+│  sudo mkswap /swapfile          (format)                                    │
+│  sudo swapon /swapfile          (enable)                                    │
+│                                                                              │
+│  Add to /etc/fstab:                                                          │
+│  UUID=abc123 none swap sw 0 0  (partition)                                  │
+│  /swapfile none swap sw 0 0    (file)                                       │
+│                                                                              │
+│  Manage Swap:                                                                │
+│  free -h                        - Show swap usage                           │
+│  swapon -s                      - List swap areas                           │
+│  sudo swapoff /dev/sdb2         - Disable swap                              │
+│  sudo swapon -p 100 /dev/sdb2   - Set priority                              │
+│                                                                              │
+│  Swap Sizing Guidelines:                                                     │
+│  < 2GB RAM:   RAM * 2           - Double RAM                                │
+│  2-8GB RAM:   RAM * 1 to 1.5    - Equal to 1.5x RAM                         │
+│  > 8GB RAM:   RAM * 0.5         - Half RAM (may not be needed)              │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ NON-DESTRUCTIVE STORAGE EXPANSION ──────────────────────────────────────────┐
+│                                                                              │
+│  Adding Space to Existing Filesystem:                                        │
+│  1. Add new disk/partition                                                  │
+│  2. Create physical volume on new device                                    │
+│  3. Extend volume group: sudo vgextend vg_name /dev/new                     │
+│  4. Extend logical volume: sudo lvextend -L +size /dev/vg/lv                │
+│  5. Extend filesystem:                                                      │
+│     - ext4: sudo resize2fs /dev/vg/lv                                       │
+│     - xfs:  sudo xfs_growfs /mount/point                                    │
+│  6. Verify: df -h /mount/point                                              │
+│                                                                              │
+│  Moving Filesystem to Larger LV:                                             │
+│  1. Create new LV: sudo lvcreate -L size -n lv_new vg_name                  │
+│  2. Create filesystem: sudo mkfs.ext4 /dev/vg_name/lv_new                   │
+│  3. Mount new LV: sudo mount /dev/vg_name/lv_new /mnt/temp                  │
+│  4. Copy data: sudo cp -a /old/mount/* /mnt/temp/                           │
+│  5. Unmount both: sudo umount /old/mount /mnt/temp                          │
+│  6. Remove old LV: sudo lvremove /dev/vg_name/lv_old                        │
+│  7. Rename new: sudo lvrename vg_name/lv_new vg_name/lv_old                 │
+│  8. Mount new LV: sudo mount /dev/vg_name/lv_old /old/mount                 │
+│  9. Update fstab with new UUID                                              │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ FILESYSTEM CREATION AND MANAGEMENT ────────────────────────────────────────┐
+│                                                                              │
+│  Create Filesystems:                                                         │
+│  sudo mkfs.ext4 /dev/vg_storage/lv_home                                     │
+│  sudo mkfs.xfs /dev/vg_storage/lv_data                                      │
+│  sudo mkfs -t ext4 /dev/sda1                                                │
+│                                                                              │
+│  Check Filesystems:                                                          │
+│  sudo e2fsck /dev/vg_storage/lv_home        (ext4)                          │
+│  sudo xfs_repair /dev/vg_storage/lv_data    (xfs)                           │
+│                                                                              │
+│  Resize Filesystems:                                                         │
+│  sudo resize2fs /dev/vg_storage/lv_home     (ext4 - grow to LV size)        │
+│  sudo resize2fs /dev/vg_storage/lv_home 15G (ext4 - shrink to 15G)          │
+│  sudo xfs_growfs /mount/point                (xfs - grow only)              │
+│                                                                              │
+│  Show Filesystem Info:                                                       │
+│  df -h                          - Disk usage by mount point                 │
+│  du -sh /directory              - Directory size                            │
+│  sudo tune2fs -l /dev/sda1      - ext4 filesystem details                   │
+│  sudo xfs_admin -u /dev/sda2    - xfs filesystem UUID                       │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ WORKFLOW EXAMPLE: COMPLETE STORAGE SETUP ──────────────────────────────────┐
+│                                                                              │
+│  1. Partition new disk:                                                     │
+│     sudo fdisk /dev/sdb         (g → n → w)                                 │
+│                                                                              │
+│  2. Create physical volumes:                                                │
+│     sudo pvcreate /dev/sdb1 /dev/sdb2                                       │
+│                                                                              │
+│  3. Create volume group:                                                    │
+│     sudo vgcreate vg_production /dev/sdb1 /dev/sdb2                         │
+│                                                                              │
+│  4. Create logical volumes:                                                 │
+│     sudo lvcreate -L 20G -n lv_data vg_production                            │
+│     sudo lvcreate -l 100%FREE -n lv_backup vg_production                     │
+│                                                                              │
+│  5. Create filesystems:                                                     │
+│     sudo mkfs.ext4 /dev/vg_production/lv_data                               │
+│     sudo mkfs.ext4 /dev/vg_production/lv_backup                             │
+│                                                                              │
+│  6. Create mount points:                                                    │
+│     sudo mkdir -p /data /backup                                             │
+│                                                                              │
+│  7. Mount filesystems:                                                      │
+│     sudo mount /dev/vg_production/lv_data /data                             │
+│     sudo mount /dev/vg_production/lv_backup /backup                         │
+│                                                                              │
+│  8. Get UUIDs:                                                               │
+│     UUID1=$(sudo blkid -s UUID -o value /dev/vg_production/lv_data)        │
+│     UUID2=$(sudo blkid -s UUID -o value /dev/vg_production/lv_backup)      │
+│                                                                              │
+│  9. Add to /etc/fstab:                                                       │
+│     echo "UUID=$UUID1 /data ext4 defaults,nofail 0 2" | sudo tee -a /etc/fstab │
+│     echo "UUID=$UUID2 /backup ext4 defaults,nofail 0 2" | sudo tee -a /etc/fstab │
+│                                                                              │
+│  10. Test fstab:                                                             │
+│      sudo mount -a               (verify all mounts)                        │
+│                                                                              │
+│  11. Create and enable swap:                                                │
+│      sudo lvcreate -L 4G -n lv_swap vg_production                            │
+│      sudo mkswap /dev/vg_production/lv_swap                                 │
+│      sudo swapon /dev/vg_production/lv_swap                                 │
+│      UUID3=$(sudo blkid -s UUID -o value /dev/vg_production/lv_swap)       │
+│      echo "UUID=$UUID3 none swap sw 0 0" | sudo tee -a /etc/fstab           │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+EXAM TIPS
+================================================================================
+
+✓ Always use UUIDs, not device names (/dev/sda can change!)
+✓ Test /etc/fstab with 'mount -a' before rebooting
+✓ Use nofail option for non-critical filesystems
+✓ Create swap on LV, not on raw partition (more flexible)
+✓ Understand LVM hierarchy: PV → VG → LV
+✓ Know when to use which filesystem (ext4 vs xfs)
+✓ Practice expansion and shrinking (know the risks)
+✓ Remember: lvextend increases LV, resize2fs/xfs_growfs increases filesystem
+
+================================================================================
+QUICK TROUBLESHOOTING
+================================================================================
+
+Problem: After expanding LV, filesystem still shows old size
+  Solution: Run resize2fs (ext4) or xfs_growfs (xfs)
+
+Problem: Mount fails on boot with new fstab entry
+  Solution: Test with 'sudo mount -a', check UUID with 'blkid'
+
+Problem: Physical volume already exists
+  Solution: Use pvremove to remove old metadata, then pvcreate
+
+Problem: Can't reduce logical volume
+  Solution: Check if XFS (can't shrink); backup data; umount first
+
+Problem: Swap not enabling
+  Solution: Check permissions (600); verify with 'swapon -s'
+
+================================================================================
