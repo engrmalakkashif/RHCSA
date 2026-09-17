@@ -1,0 +1,5 @@
+User1:100:admin
+User2:200:user
+Admin1:50:admin
+Admin2:60:admin
+guest:1000:visitor
