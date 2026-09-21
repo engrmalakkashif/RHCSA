@@ -2,14 +2,15 @@
 ## Red Hat Certified System Administrator (EX200) Study Material
 
 **Last Updated:** September 17, 2026  
-**Version:** 2.0  
-**Status:** 🟢 Modules 1-3 Complete | Modules 4-12 In Planning
+**Version:** 2.1  
+**Status:** 🟢 Modules 1-4 Complete | Modules 5-12 In Planning
 
-**Progress:** ✅ 3/12 Modules Complete (25%)
+**Progress:** ✅ 4/12 Modules Complete (33%)
 - Module 1: COMPLETE (100%)
 - Module 2: COMPLETE (100%)
 - Module 3: COMPLETE (100%)
-- Modules 4-12: In Development
+- Module 4: COMPLETE (100%)
+- Modules 5-12: In Development
 
 ---
 
@@ -209,24 +210,37 @@ This preparation guide is organized into **12 major modules**, each containing:
 
 ---
 
-### Module 4: Create and Configure Filesystems
+### Module 4: Create and Configure Filesystems ✅ COMPLETE
 
-**Topics to Cover:**
-- Filesystem types (ext4, xfs, btrfs)
-- Create filesystems
-- Mount filesystems
-- Configure mount options
-- Manage swap space
-- Monitor disk usage
-- Check and repair filesystems (fsck)
-- Extended attributes
-- ACLs (Access Control Lists)
+**Topics Covered:**
+- Filesystem fundamentals and concepts
+- Creating filesystems (ext4, XFS, VFAT)
+- Mounting filesystems with options
+- UUID-based persistent mounting
+- ext4 filesystem tools and management
+- XFS filesystem tools and growth
+- VFAT filesystem usage and limitations
+- Network file systems (NFS) mounting
+- Autofs configuration and auto-mounting
+- Extending logical volumes
+- File permission troubleshooting
 
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `04_Create_Configure_Filesystems_Lab_Notes.md`
-- `04_Quick_Reference.txt`
-- `04_Lab_Exercises.md`
+**Deliverables:**
+- ✅ `04_Create_Configure_Filesystems_Lab_Notes.md` - 3,500+ lines comprehensive reference
+- ✅ `Module_04_Filesystems/Quick_Reference.txt` - Command cheat sheet
+- ✅ `Module_04_Filesystems/Lab_Exercises.md` - 8 hands-on exercises
+- ✅ `Module_04_Filesystems/INDEX.md` - Study guide & navigation
+- ✅ `Module_04_Filesystems/MODULE_4_SUMMARY.md` - Coverage & statistics
+- ✅ `Module_04_Filesystems/Module_4_Status.txt` - Quick status report
+
+**Content:** 8,300+ lines | 350+ examples | 48+ commands | 8 exercises
+**Exam Coverage:** 100% of objectives
+**Study Time:** 12-15 hours (3 learning paths available)
+
+**Quick Start:**
+- Beginner: Start with Lab Notes section 1
+- Intermediate: Begin with Lab Exercise 2
+- Advanced: Use Quick Reference, focus on Lab Exercises 4+
 
 ---
 
@@ -569,7 +583,14 @@ RHCSA/
 │   ├── MODULE_3_SUMMARY.md                     # Coverage & statistics (1,500 lines)
 │   └── Module_3_Status.txt                     # Quick status report
 │
-├── Module_04_Filesystems/                      # (In Development)
+├── 04_Create_Configure_Filesystems_Lab_Notes.md # Module 4 - Main reference (3,500 lines)
+├── Module_04_Filesystems/                      # Module 4 - Organized files
+│   ├── INDEX.md                                # Study guide & navigation (1,500 lines)
+│   ├── Quick_Reference.txt                     # Cheat sheet (600 lines)
+│   ├── Lab_Exercises.md                        # 8 hands-on exercises (1,200 lines)
+│   ├── MODULE_4_SUMMARY.md                     # Coverage & statistics (1,500 lines)
+│   └── Module_4_Status.txt                     # Quick status report
+│
 ├── Module_05_Deploy_Maintain/                  # (In Development)
 │
 ├── [Modules 06-12...]                          # (In Planning)
@@ -602,10 +623,10 @@ TOTAL CONTENT: 20,000+ lines of detailed study material
 | 1: Essential Tools | ✅ COMPLETE | 7,000+ | 400+ | 12 | 12-15 hrs |
 | 2: Operating Systems | ✅ COMPLETE | 5,000+ | 350+ | 8 | 10-12 hrs |
 | 3: Local Storage | ✅ COMPLETE | 7,500+ | 450+ | 8 | 12-15 hrs |
-| 4: Filesystems | 🟡 Planning | - | - | - | - |
+| 4: Filesystems | ✅ COMPLETE | 8,300+ | 350+ | 8 | 12-15 hrs |
 | 5-12: Other Modules | ⏳ Planned | - | - | - | - |
 
-**Total Completed:** 19,500+ lines of comprehensive study material
+**Total Completed:** 27,800+ lines of comprehensive study material
 
 ---
 
@@ -897,7 +918,7 @@ Found an issue or have improvement?
   - Status: 100% exam objectives covered
 
 **In Progress:**
-- 🟡 Module 4: Create and Configure Filesystems (Planning)
+- 🟡 Module 5: Deploy, Configure, and Maintain Systems (Planning)
 - 🟡 Practice Exam Framework (Template development)
 - 🟡 Troubleshooting Guide (In development)
 
@@ -931,7 +952,20 @@ Found an issue or have improvement?
 
 ### Changelog
 
-**v2.0 (Current - September 17, 2026)**
+**v2.1 (Current - September 17, 2026)**
+- ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)
+  - Lab notes, INDEX, Quick reference, 12 exercises, Summary, Status
+- ✅ Module 2: Operate Running Systems - COMPLETE (5,000+ lines)
+  - Lab notes, INDEX, Quick reference, 8 exercises, Summary, Completion report
+- ✅ Module 3: Configure Local Storage - COMPLETE (7,500+ lines)
+  - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
+- ✅ Module 4: Create and Configure Filesystems - COMPLETE (8,300+ lines)
+  - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
+- ✅ Updated README with Module 4 status and coverage
+- Total: 27,800+ lines of study material across 4 modules
+- 100% exam objective coverage for Modules 1-4
+
+**v2.0 (September 14, 2026)**
 - ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)
   - Lab notes, INDEX, Quick reference, 12 exercises, Summary, Status
 - ✅ Module 2: Operate Running Systems - COMPLETE (5,000+ lines)

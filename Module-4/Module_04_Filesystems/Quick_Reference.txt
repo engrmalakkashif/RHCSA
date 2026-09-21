@@ -1,0 +1,438 @@
+================================================================================
+RHCSA MODULE 4: CREATE AND CONFIGURE FILE SYSTEMS
+Quick Reference & Command Cheat Sheet
+================================================================================
+
+================================================================================
+1. FILESYSTEM CREATION COMMANDS
+================================================================================
+
+Create ext4 Filesystem:
+  sudo mkfs -t ext4 /dev/sdb1
+  sudo mkfs.ext4 /dev/sdb1
+  sudo mkfs.ext4 -L label /dev/sdb1    # With label
+  sudo mkfs.ext4 -F /dev/sdb1          # Force (bypass checks)
+
+Create XFS Filesystem:
+  sudo mkfs -t xfs /dev/sdb1
+  sudo mkfs.xfs /dev/sdb1
+  sudo mkfs.xfs -L label /dev/sdb1     # With label
+  sudo mkfs.xfs -f /dev/sdb1           # Force
+
+Create VFAT Filesystem:
+  sudo mkfs -t vfat /dev/sdb1
+  sudo mkfs.vfat /dev/sdb1
+  sudo mkfs.vfat -n LABEL /dev/sdb1    # With label
+  sudo mkfs.vfat -F 32 /dev/sdb1       # FAT32
+  sudo mkfs.vfat -F 16 /dev/sdb1       # FAT16
+
+Verify Filesystem Created:
+  blkid /dev/sdb1                      # Show UUID and type
+  lsblk -f /dev/sdb1                   # Show filesystem info
+  file -s /dev/sdb1                    # Show filesystem type
+
+================================================================================
+2. MOUNTING FILESYSTEMS
+================================================================================
+
+Basic Mount Commands:
+  sudo mount /dev/sdb1 /mnt/data       # Mount device
+  sudo mount -t ext4 /dev/sdb1 /mount  # Mount with type
+  sudo mount -r /dev/sdb1 /mount       # Mount read-only
+  sudo mount -w /dev/sdb1 /mount       # Mount read-write
+
+Mount with Options:
+  sudo mount -o defaults /dev/sdb1 /mnt/data
+  sudo mount -o rw,exec,suid /dev/sdb1 /mnt/data
+  sudo mount -o ro,noexec,nosuid /dev/sdb1 /mnt/data
+
+Remount (Change Options):
+  sudo mount -o remount,ro /mnt/data   # Remount read-only
+  sudo mount -o remount,rw /mnt/data   # Remount read-write
+
+Unmount Filesystems:
+  sudo umount /mnt/data                # Unmount by path
+  sudo umount /dev/sdb1                # Unmount by device
+  sudo umount -l /mnt/data             # Lazy unmount
+  sudo umount -f /mnt/data             # Force unmount (⚠️ risky)
+
+View Mounts:
+  mount                                # Show all mounts
+  mount | grep /dev/sdb                # Show specific device
+  mount -t ext4                        # Show only ext4 mounts
+  df -h                                # Show mounted filesystems
+
+================================================================================
+3. EXT4 FILESYSTEM TOOLS
+================================================================================
+
+Filesystem Information:
+  sudo tune2fs -l /dev/sdb1            # List ext4 settings
+  sudo dumpe2fs -h /dev/sdb1           # Dump superblock info
+  sudo e2label /dev/sdb1               # Show label
+
+Set Label:
+  sudo e2label /dev/sdb1 mydata        # Set label to "mydata"
+  sudo e2label /dev/sdb1               # Clear label
+
+Modify Settings:
+  sudo tune2fs -m 1 /dev/sdb1          # Set reserved blocks to 1%
+  sudo tune2fs -c -1 /dev/sdb1         # Disable fsck after mounts
+  sudo tune2fs -i 0 /dev/sdb1          # Disable fsck based on time
+
+Check Filesystem (Read-only):
+  sudo e2fsck -n /dev/sdb1             # Check only, no changes
+  sudo e2fsck -c /dev/sdb1             # Check with bad blocks
+
+Repair Filesystem:
+  sudo umount /dev/sdb1
+  sudo e2fsck -y /dev/sdb1             # Auto-repair
+  sudo e2fsck -f /dev/sdb1             # Force check
+
+Resize ext4 Filesystem:
+  sudo lvextend -L +10G /dev/vg/lv     # Extend LV first
+  sudo resize2fs /dev/vg/lv            # Grow filesystem
+  sudo resize2fs /dev/sdb1 20G         # Resize to 20GB
+
+================================================================================
+4. XFS FILESYSTEM TOOLS
+================================================================================
+
+Filesystem Information:
+  sudo xfs_info /mnt/data              # Get XFS info (mounted)
+  sudo xfs_admin -l /dev/sdb1          # Get label
+  sudo xfs_admin -u /dev/sdb1          # Get UUID
+
+Set Label:
+  sudo xfs_admin -L mydata /dev/sdb1   # Set label
+
+Check Filesystem:
+  sudo xfs_check /dev/sdb1             # Read-only check
+
+Repair Filesystem:
+  sudo umount /dev/sdb1
+  sudo xfs_repair /dev/sdb1            # Repair filesystem
+  sudo xfs_repair -n /dev/sdb1         # Dry-run (no changes)
+  sudo xfs_repair -v /dev/sdb1         # Verbose
+
+Grow XFS Filesystem:
+  sudo lvextend -L +10G /dev/vg/lv     # Extend LV first
+  sudo xfs_growfs /mnt/data            # Grow (online)
+  sudo xfs_growfs -D 20G /mnt/data     # Grow to specific size
+
+Important: XFS cannot shrink (only grow)
+
+================================================================================
+5. VFAT FILESYSTEM TOOLS
+================================================================================
+
+Check VFAT Filesystem:
+  sudo fsck.vfat /dev/sdb1             # Check filesystem
+  sudo fsck.vfat -r /dev/sdb1          # Interactive repair
+  sudo fsck.vfat -y /dev/sdb1          # Auto-repair
+
+Mount Options:
+  sudo mount -o umask=0000 /dev/sdb1 /mnt/data   # Full permissions
+  sudo mount -o codepage=cp437 /dev/sdb1 /mnt/   # DOS codepage
+
+View Info:
+  blkid /dev/sdb1                      # Show VFAT info
+
+================================================================================
+6. NETWORK FILE SYSTEMS (NFS)
+================================================================================
+
+List NFS Exports:
+  showmount -e nfs-server.example.com  # List available exports
+  showmount -a nfs-server              # List all clients
+
+Mount NFS Filesystem:
+  sudo mount -t nfs nfs-server:/export/data /mnt/data
+  sudo mount -t nfs -o vers=4 nfs-server:/export/data /mnt/data
+  sudo mount -t nfs -o vers=3 nfs-server:/export/data /mnt/data
+
+NFS Mount Options:
+  hard            # Retry indefinitely (default)
+  soft            # Give up after retries (not recommended)
+  intr            # Allow interruption
+  async           # Asynchronous I/O (default)
+  sync            # Synchronous I/O (safer)
+  rsize=8192      # Read size
+  wsize=8192      # Write size
+
+Example Safe Mount:
+  sudo mount -t nfs -o hard,intr,rsize=8192,wsize=8192 \
+    nfs-server:/export /mnt/data
+
+NFS in /etc/fstab:
+  nfs-server:/export/data /mnt/data nfs defaults,hard,intr 0 0
+
+================================================================================
+7. AUTOFS CONFIGURATION
+================================================================================
+
+Install Autofs:
+  sudo yum install autofs
+  sudo dnf install autofs
+
+Enable and Start:
+  sudo systemctl enable autofs
+  sudo systemctl start autofs
+  sudo systemctl status autofs
+
+Configure Master Map:
+  sudo vim /etc/auto.master
+  # Add: /mnt/auto    /etc/auto.nfs    --timeout=300
+
+Create NFS Map:
+  sudo vim /etc/auto.nfs
+  # Add: data    -rw,hard,intr    nfs-server:/export/data
+
+Reload Configuration:
+  sudo systemctl restart autofs
+  sudo systemctl reload autofs
+
+Test/Debug:
+  sudo automount -f                    # Test configuration
+  sudo automount -v -f                 # Verbose test
+  sudo journalctl -u autofs -f         # Follow logs
+
+Usage:
+  cd /mnt/auto/data                    # Auto-mounts on access
+  mount | grep autofs                  # Check active autofs
+
+================================================================================
+8. EXTENDING LOGICAL VOLUMES
+================================================================================
+
+Check Current Status:
+  sudo lvs /dev/vg/lv                  # Show LV size
+  sudo vgs vg                           # Show VG free space
+  df -h /mount/point                   # Show filesystem usage
+
+Extend Logical Volume:
+  sudo lvextend -L +10G /dev/vg/lv    # Add 10GB
+  sudo lvextend -L 50G /dev/vg/lv     # Set to 50GB
+  sudo lvextend -l +100%FREE /dev/vg/lv  # Use all free space
+
+Extend ext4 Filesystem:
+  sudo lvextend -L +10G /dev/vg/lv
+  sudo resize2fs /dev/vg/lv            # Grow to fill LV
+  sudo resize2fs /dev/vg/lv 50G        # Resize to 50GB
+
+Extend XFS Filesystem:
+  sudo lvextend -L +10G /dev/vg/lv
+  sudo xfs_growfs /mount/point         # Grow (online)
+
+Verify New Size:
+  df -h /mount/point
+  sudo lvs /dev/vg/lv
+
+Complete Workflow:
+  1. Check free space: sudo vgs vg
+  2. Extend LV: sudo lvextend -L +10G /dev/vg/lv
+  3. Check filesystem type: df -T /mount/point
+  4. If ext4: sudo resize2fs /dev/vg/lv
+  5. If XFS: sudo xfs_growfs /mount/point
+  6. Verify: df -h /mount/point
+
+================================================================================
+9. FILE PERMISSION TROUBLESHOOTING
+================================================================================
+
+View Permissions:
+  ls -l file.txt                       # Show permissions
+  ls -ld directory/                    # Show directory permissions
+  stat file.txt                        # Detailed permission info
+  id user                              # Show user/group info
+
+Permission Meanings:
+  r (4) = read      (view file/list directory)
+  w (2) = write     (modify file/create in directory)
+  x (1) = execute   (run file/enter directory)
+  
+  - = no permission
+  ugo = user, group, other
+
+Change Permissions (Symbolic):
+  chmod u+r file.txt                   # Add read for user
+  chmod g+w file.txt                   # Add write for group
+  chmod o-r file.txt                   # Remove read from other
+  chmod +x file.txt                    # Add execute for all
+  chmod a=r file.txt                   # Set read-only for all
+
+Change Permissions (Numeric):
+  chmod 644 file.txt                   # rw-r--r--
+  chmod 755 file.txt                   # rwxr-xr-x
+  chmod 777 file.txt                   # rwxrwxrwx
+  chmod 600 file.txt                   # rw-------
+
+Change Ownership:
+  sudo chown user file.txt             # Change user
+  sudo chgrp group file.txt            # Change group
+  sudo chown user:group file.txt       # Change both
+  sudo chown -R user:group directory/  # Recursive
+
+Fix Directory Permissions:
+  sudo chmod -R 755 directory/         # All contents
+  sudo find dir -type f -exec chmod 644 {} \;  # Files only
+  sudo find dir -type d -exec chmod 755 {} \;  # Dirs only
+
+Common Permission Fixes:
+  644  = rw-r--r--   (files, readable by all)
+  755  = rwxr-xr-x   (files, executable; dirs)
+  600  = rw-------   (private file)
+  700  = rwx------   (private directory)
+  777  = rwxrwxrwx   (full access - use carefully!)
+
+Verify Fix:
+  ls -l file.txt                       # Check new permissions
+  sudo e2fsck -n /dev/sdb1             # Check filesystem (ext4)
+  mount | grep filesystem              # Verify mounted
+
+================================================================================
+10. /etc/fstab ENTRIES
+================================================================================
+
+Filesystem by Device:
+  /dev/sdb1    /mnt/data    ext4    defaults    0 2
+  /dev/sdb2    /backup      xfs     defaults    0 2
+
+Filesystem by UUID:
+  UUID=abc123-def456    /data    ext4    defaults    0 2
+
+Filesystem by Label:
+  LABEL=mydata    /data    ext4    defaults    0 2
+
+NFS Filesystem:
+  nfs-server:/export/data    /mnt/data    nfs    defaults,hard,intr    0 0
+
+Common Options:
+  defaults     = rw,suid,dev,exec,auto,nouser,async
+  ro           = read-only
+  rw           = read-write
+  noexec       = prevent execution
+  nosuid       = block setuid bit
+  nouser       = only root can mount
+  nofail       = continue boot if mount fails
+  x-systemd.automount  = autofs-like behavior
+
+Last Two Columns (dump and pass):
+  0 = don't backup (dump)
+  1 or 2 = fsck priority (1=root filesystem, 2=others)
+
+Test fstab:
+  sudo mount -a                        # Mount all in fstab
+  sudo mount -a -t ext4                # Test specific type
+
+Find UUID:
+  blkid /dev/sdb1
+  sudo blkid -s UUID -o value /dev/sdb1
+
+================================================================================
+11. FILESYSTEM VERIFICATION
+================================================================================
+
+Check Filesystem State:
+  mount                                # Show current mounts
+  df -h                                # Show disk usage
+  df -T                                # Show filesystem types
+  lsblk -f                             # Show all filesystems
+  blkid                                # Show all devices/UUIDs
+
+Verify Permissions:
+  ls -l file.txt
+  stat file.txt
+  getfacl file.txt                     # Show ACLs (if set)
+
+Verify LV State:
+  sudo lvs /dev/vg/lv
+  sudo vgs vg
+  sudo pvs
+
+Check ext4:
+  sudo dumpe2fs /dev/sdb1 | head -20
+  sudo tune2fs -l /dev/sdb1
+
+Check XFS:
+  sudo xfs_info /mount/point
+  sudo xfs_admin -l /dev/sdb1
+
+================================================================================
+12. COMMON WORKFLOWS
+================================================================================
+
+Complete Filesystem Setup:
+  1. sudo mkfs.ext4 /dev/sdb1
+  2. sudo mkdir -p /mnt/data
+  3. sudo mount /dev/sdb1 /mnt/data
+  4. sudo mount | grep /mnt/data       # Verify
+  5. Add to /etc/fstab (use UUID)
+  6. sudo mount -a                     # Test fstab
+
+Extend Filesystem (ext4):
+  1. sudo lvextend -L +10G /dev/vg/lv
+  2. sudo resize2fs /dev/vg/lv
+  3. df -h /mount/point                # Verify
+
+Extend Filesystem (XFS):
+  1. sudo lvextend -L +10G /dev/vg/lv
+  2. sudo xfs_growfs /mount/point
+  3. df -h /mount/point                # Verify
+
+Mount NFS:
+  1. showmount -e nfs-server           # Check exports
+  2. sudo mount -t nfs nfs-server:/export /mnt/nfs
+  3. Add to /etc/fstab
+  4. sudo mount -a                     # Test
+
+Fix Permission Problem:
+  1. ls -l file.txt                    # Check current
+  2. Identify needed permission
+  3. sudo chmod 644 file.txt           # Fix
+  4. ls -l file.txt                    # Verify
+
+Configure Autofs:
+  1. sudo vim /etc/auto.master
+  2. sudo vim /etc/auto.nfs
+  3. sudo systemctl restart autofs
+  4. cd /mnt/auto/mountpoint           # Test
+
+================================================================================
+13. TROUBLESHOOTING COMMANDS
+================================================================================
+
+Mount Failed:
+  sudo mount -v /dev/sdb1 /mnt/data    # Verbose output
+  dmesg | tail -20                     # Check kernel messages
+  sudo systemctl status autofs         # If using autofs
+
+Cannot Access Mounted Filesystem:
+  mount | grep /mnt/data               # Verify mounted
+  ls -l /mnt/data                      # Check permissions
+  id                                   # Check user
+  sudo -l                              # Check sudo privileges
+
+Filesystem Full:
+  df -h                                # Show usage
+  du -sh *                             # Show directory sizes
+  sudo lvextend -L +10G /dev/vg/lv    # Extend if LVM
+  sudo resize2fs /dev/vg/lv            # Grow filesystem
+
+NFS Not Mounting:
+  ping nfs-server                      # Check connectivity
+  showmount -e nfs-server              # Check exports
+  sudo mount -v -t nfs nfs-server:/export /mnt/  # Verbose
+  sudo journalctl -f                   # Watch logs
+
+Permission Denied:
+  ls -l file.txt                       # Check permissions
+  id                                   # Check user/group
+  sudo chmod 644 file.txt              # Fix permissions
+  sudo chown user:group file.txt       # Fix ownership
+
+================================================================================
+
+End of Quick Reference - Module 4: Create and Configure File Systems
+
+Use this guide for quick command lookup during practice and exams.
