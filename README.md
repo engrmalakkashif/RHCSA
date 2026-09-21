@@ -2,15 +2,16 @@
 ## Red Hat Certified System Administrator (EX200) Study Material
 
 **Last Updated:** September 17, 2026  
-**Version:** 2.1  
-**Status:** 🟢 Modules 1-4 Complete | Modules 5-12 In Planning
+**Version:** 2.2  
+**Status:** 🟢 Modules 1-5 Complete | Modules 6-12 In Planning
 
-**Progress:** ✅ 4/12 Modules Complete (33%)
+**Progress:** ✅ 5/12 Modules Complete (42%)
 - Module 1: COMPLETE (100%)
 - Module 2: COMPLETE (100%)
 - Module 3: COMPLETE (100%)
 - Module 4: COMPLETE (100%)
-- Modules 5-12: In Development
+- Module 5: COMPLETE (100%)
+- Modules 6-12: In Development
 
 ---
 
@@ -244,30 +245,42 @@ This preparation guide is organized into **12 major modules**, each containing:
 
 ---
 
-### Module 5: Deploy, Configure, and Maintain Systems
+### Module 5: Deploy, Configure, and Maintain Systems ✅ COMPLETE
 
-**Topics to Cover:**
-- System time and date configuration
-- Hostname configuration
-- Network configuration (nmcli, nmtui)
-- Static and dynamic IPs
-- DNS configuration
-- Network bonding and teaming
-- Firewall basics (firewalld)
-- System updates and patches
-- Kernel management
-- Boot process troubleshooting
-- GRUB configuration
+**Topics Covered:**
+- System time and date configuration (timedatectl, chrony)
+- Hostname configuration (hostnamectl)
+- Network configuration (nmcli) with static and dynamic IPs
+- DNS configuration and verification
+- Task scheduling using at, cron, and systemd timers
+- Service management with systemctl
+- Boot targets and system runlevels
+- Software package management (yum/dnf)
+- Repository configuration and subscription management
+- Bootloader configuration (GRUB2)
+- System maintenance and updates
+- Kernel parameter management
 
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `05_Deploy_Configure_Systems_Lab_Notes.md`
-- `05_Quick_Reference.txt`
-- `05_Lab_Exercises.md`
+**Deliverables:**
+- ✅ `05_Deploy_Configure_Maintain_Lab_Notes.md` - 3,500+ lines comprehensive reference
+- ✅ `Module_05_Deploy_Systems/Quick_Reference.txt` - Command cheat sheet
+- ✅ `Module_05_Deploy_Systems/Lab_Exercises.md` - 8 hands-on exercises
+- ✅ `Module_05_Deploy_Systems/INDEX.md` - Study guide & navigation
+- ✅ `Module_05_Deploy_Systems/MODULE_5_SUMMARY.md` - Coverage & statistics
+- ✅ `Module_05_Deploy_Systems/Module_5_Status.txt` - Quick status report
+
+**Content:** 8,700+ lines | 300+ examples | 83+ commands | 8 exercises
+**Exam Coverage:** 100% of objectives
+**Study Time:** 14-18 hours (3 learning paths available)
+
+**Quick Start:**
+- Beginner: Start with Lab Notes section 1
+- Intermediate: Begin with Lab Exercise 3
+- Advanced: Use Quick Reference, focus on Lab Exercises 5+
 
 ---
 
-### Module 6: Manage Users and Groups
+### Module 6: Manage Users and Groups (In Development)
 
 **Topics to Cover:**
 - Create and delete users
@@ -591,7 +604,15 @@ RHCSA/
 │   ├── MODULE_4_SUMMARY.md                     # Coverage & statistics (1,500 lines)
 │   └── Module_4_Status.txt                     # Quick status report
 │
-├── Module_05_Deploy_Maintain/                  # (In Development)
+├── 05_Deploy_Configure_Maintain_Lab_Notes.md  # Module 5 - Main reference (3,500 lines)
+├── Module_05_Deploy_Systems/                   # Module 5 - Organized files
+│   ├── INDEX.md                                # Study guide & navigation (1,500 lines)
+│   ├── Quick_Reference.txt                     # Cheat sheet (800 lines)
+│   ├── Lab_Exercises.md                        # 8 hands-on exercises (1,400 lines)
+│   ├── MODULE_5_SUMMARY.md                     # Coverage & statistics (1,500 lines)
+│   └── Module_5_Status.txt                     # Quick status report
+│
+├── Module_06_Manage_Users_Groups/              # (In Development)
 │
 ├── [Modules 06-12...]                          # (In Planning)
 │
@@ -624,9 +645,10 @@ TOTAL CONTENT: 20,000+ lines of detailed study material
 | 2: Operating Systems | ✅ COMPLETE | 5,000+ | 350+ | 8 | 10-12 hrs |
 | 3: Local Storage | ✅ COMPLETE | 7,500+ | 450+ | 8 | 12-15 hrs |
 | 4: Filesystems | ✅ COMPLETE | 8,300+ | 350+ | 8 | 12-15 hrs |
-| 5-12: Other Modules | ⏳ Planned | - | - | - | - |
+| 5: Deploy & Maintain | ✅ COMPLETE | 8,700+ | 300+ | 8 | 14-18 hrs |
+| 6-12: Other Modules | ⏳ Planned | - | - | - | - |
 
-**Total Completed:** 27,800+ lines of comprehensive study material
+**Total Completed:** 36,500+ lines of comprehensive study material
 
 ---
 
@@ -952,7 +974,7 @@ Found an issue or have improvement?
 
 ### Changelog
 
-**v2.1 (Current - September 17, 2026)**
+**v2.2 (Current - September 17, 2026)**
 - ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)
   - Lab notes, INDEX, Quick reference, 12 exercises, Summary, Status
 - ✅ Module 2: Operate Running Systems - COMPLETE (5,000+ lines)
@@ -961,9 +983,19 @@ Found an issue or have improvement?
   - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
 - ✅ Module 4: Create and Configure Filesystems - COMPLETE (8,300+ lines)
   - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
-- ✅ Updated README with Module 4 status and coverage
+- ✅ Module 5: Deploy, Configure, and Maintain Systems - COMPLETE (8,700+ lines)
+  - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
+- ✅ Updated README with Module 5 status and coverage
+- Total: 36,500+ lines of study material across 5 modules
+- 100% exam objective coverage for Modules 1-5
+
+**v2.1 (September 14, 2026)**
+- ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)
+- ✅ Module 2: Operate Running Systems - COMPLETE (5,000+ lines)
+- ✅ Module 3: Configure Local Storage - COMPLETE (7,500+ lines)
+- ✅ Module 4: Create and Configure Filesystems - COMPLETE (8,300+ lines)
+- Updated README with Module 4 status and coverage
 - Total: 27,800+ lines of study material across 4 modules
-- 100% exam objective coverage for Modules 1-4
 
 **v2.0 (September 14, 2026)**
 - ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)

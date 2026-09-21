@@ -1,0 +1,513 @@
+================================================================================
+RHCSA MODULE 5: DEPLOY, CONFIGURE, AND MAINTAIN SYSTEMS
+Quick Reference Guide - Command Cheat Sheet
+================================================================================
+
+================================================================================
+SECTION 1: TIME AND DATE MANAGEMENT
+================================================================================
+
+TIMEDATECTL (Time/Date Management)
+----------------------------------
+timedatectl                         Show current time and date settings
+timedatectl list-timezones          List all available timezones
+timedatectl list-timezones | grep US Find specific timezone
+sudo timedatectl set-timezone TZ    Set timezone (e.g., America/New_York)
+timedatectl status                  Show time sync status
+sudo timedatectl set-ntp true       Enable NTP synchronization
+sudo timedatectl set-ntp false      Disable NTP synchronization
+sudo timedatectl set-time HH:MM:SS  Set time (if NTP disabled)
+date                                Show current date/time
+date +%s                            Show current Unix timestamp
+
+CHRONY (NTP Time Sync)
+----------------------
+sudo yum install chrony             Install chrony package
+sudo systemctl enable chronyd        Enable chrony on boot
+sudo systemctl start chronyd         Start chrony service
+sudo systemctl status chronyd        Check chrony status
+sudo chronyc sources                 Show current time sources
+sudo chronyc sources -v              Show detailed source info
+sudo chronyc tracking                Show system clock tracking
+sudo chronyc waits                   Check if time is synchronized
+sudo chronyc makestep                Force time update
+sudo chronyc sourcestats -v          Show source statistics
+cat /etc/chrony.conf                 View chrony configuration
+sudo systemctl restart chronyd       Restart after config change
+
+NTP VERIFICATION
+----------------
+timedatectl | grep synchronized     Check sync status
+sudo chronyc tracking | grep "System time"
+ntpq -p                             Query NTP peers (if using ntpd)
+
+================================================================================
+SECTION 2: HOSTNAME AND NETWORK CONFIGURATION
+================================================================================
+
+HOSTNAMECTL (Hostname Management)
+---------------------------------
+hostnamectl                         Show current hostnames
+hostnamectl status                  Show all hostname types
+sudo hostnamectl set-hostname NEW   Set static hostname
+sudo hostnamectl set-hostname "NAME" --static
+sudo hostnamectl set-hostname "NAME" --pretty
+sudo hostnamectl set-hostname "NAME" --transient
+hostnamectl --query --static        Show static hostname only
+hostname                            Show current hostname
+cat /etc/hostname                   View hostname file
+
+NMCLI (Network Manager - Connection Management)
+-----------------------------------------------
+nmcli connection show               List all connections
+nmcli device status                 Show all network devices
+nmcli device show DEVICE            Show device details
+nmcli connection show CONNECTION    Show connection details
+sudo nmcli connection add type ethernet con-name NAME ifname IFACE
+sudo nmcli connection modify NAME ipv4.method manual
+sudo nmcli connection modify NAME ipv4.addresses "IP/PREFIX"
+sudo nmcli connection modify NAME ipv4.gateway "GW"
+sudo nmcli connection modify NAME ipv4.dns "DNS"
+sudo nmcli connection up CONNECTION Start connection
+sudo nmcli connection down CONNECTION Stop connection
+sudo nmcli connection delete CONNECTION Delete connection
+sudo nmcli connection reload        Reload all configurations
+sudo nmcli connection edit CONNECTION Edit interactively
+sudo nmcli device connect IFACE     Connect device
+sudo nmcli device disconnect IFACE  Disconnect device
+
+STATIC IP SETUP EXAMPLE
+-----------------------
+sudo nmcli connection add type ethernet con-name static-eth0 ifname eth0
+sudo nmcli connection modify static-eth0 ipv4.method manual
+sudo nmcli connection modify static-eth0 ipv4.addresses "192.168.1.100/24"
+sudo nmcli connection modify static-eth0 ipv4.gateway "192.168.1.1"
+sudo nmcli connection modify static-eth0 ipv4.dns "8.8.8.8 8.8.4.4"
+sudo nmcli connection up static-eth0
+
+DHCP SETUP EXAMPLE
+------------------
+sudo nmcli connection add type ethernet con-name dhcp-eth0 ifname eth0
+sudo nmcli connection modify dhcp-eth0 ipv4.method auto
+sudo nmcli connection up dhcp-eth0
+
+DNS CONFIGURATION
+-----------------
+nmcli device show eth0 | grep DNS   Show DNS servers
+sudo nmcli connection modify NAME ipv4.dns "1.1.1.1 8.8.8.8"
+cat /etc/resolv.conf                View DNS configuration
+nslookup DOMAIN                      Test DNS resolution
+dig DOMAIN                          Detailed DNS query
+getent hosts DOMAIN                 Lookup in /etc/hosts and DNS
+
+NETWORK INFO
+------------
+ip addr show                        Show IP addresses
+ip route show                       Show routing table
+ss -tlnp                           Show listening ports
+netstat -tlnp                      Show network connections
+ping HOST                          Test connectivity
+traceroute HOST                    Trace route to host
+hostname -I                        Show all IP addresses
+
+================================================================================
+SECTION 3: TASK SCHEDULING
+================================================================================
+
+AT COMMAND (One-time Tasks)
+-----------------------------
+sudo yum install at                Install at daemon
+sudo systemctl enable atd          Enable at service on boot
+sudo systemctl start atd           Start at service
+sudo systemctl status atd          Check at service status
+at <TIME>                          Schedule task (interactive)
+atq                                List scheduled tasks
+atrm JOBID                         Delete scheduled task
+at -c JOBID                        Show task details
+at -l                              List all tasks for user
+
+AT SCHEDULING EXAMPLES
+----------------------
+at now + 2 hours                   Schedule in 2 hours
+at 3:30 PM tomorrow                Schedule for tomorrow 3:30 PM
+at 10:00 AM January 20 2024        Schedule for specific date/time
+at "now + 30 minutes"              Schedule in 30 minutes
+at "11:00 AM next Monday"          Schedule for next Monday
+
+CRONTAB (Recurring Tasks)
+--------------------------
+crontab -e                         Edit user crontab
+crontab -l                         List user crontab
+crontab -r                         Remove user crontab
+sudo crontab -u USER -e            Edit other user's crontab
+sudo crontab -u USER -l            List other user's crontab
+sudo cat /etc/crontab              View system crontab
+sudo tail -f /var/log/cron         View cron logs
+
+CRON FORMAT
+-----------
+MIN HOUR DOM MON DOW COMMAND
+ *   *    *   *   *   command      Every minute
+ 0   *    *   *   *   command      Every hour
+ 0   0    *   *   *   command      Every day at midnight
+ 0   2    *   *   *   command      Every day at 2 AM
+ 0   *    1   *   *   command      1st of every month
+ 0   9    1,15 * *   command       1st and 15th of month
+ 0   8    *   *   1-5 command      Every weekday 8 AM
+ */15 *   *   *   *   command      Every 15 minutes
+ 0   9-17 *   *   *   command      Every hour 9 AM-5 PM
+ @reboot                           At system boot
+
+CRONTAB ACCESS CONTROL
+----------------------
+sudo vi /etc/cron.allow            Allow specific users only
+sudo vi /etc/cron.deny             Deny specific users
+# If allow exists, only listed users can use cron
+
+SYSTEMD TIMERS (Modern Approach)
+---------------------------------
+systemctl list-timers              List all timers
+systemctl list-timers --all        List timers (including inactive)
+sudo systemctl enable TIMER.timer  Enable timer on boot
+sudo systemctl start TIMER.timer   Start timer
+sudo systemctl stop TIMER.timer    Stop timer
+sudo systemctl status TIMER.timer  Check timer status
+systemctl cat TIMER.timer          Show timer configuration
+sudo systemctl daemon-reload       Reload systemd configs
+sudo systemctl start TIMER.service Manually trigger timer
+
+SYSTEMD TIMER ONCALENDAR FORMAT
+--------------------------------
+OnCalendar=daily                   Every day at 00:00
+OnCalendar=weekly                  Every Sunday at 00:00
+OnCalendar=monthly                 First day of month 00:00
+OnCalendar=yearly                  January 1st at 00:00
+OnCalendar=*-*-* 02:30:00          Every day at 2:30 AM
+OnCalendar=Mon *-*-* 10:00:00      Every Monday at 10:00 AM
+OnCalendar=Mon,Fri *-*-* 09:00:00  Monday and Friday 9:00 AM
+OnBootSec=5min                     5 minutes after boot
+OnUnitActiveSec=1h                 1 hour after last execution
+
+================================================================================
+SECTION 4: SERVICE MANAGEMENT
+================================================================================
+
+SYSTEMCTL SERVICE COMMANDS
+---------------------------
+sudo systemctl start SERVICE       Start service
+sudo systemctl stop SERVICE        Stop service
+sudo systemctl restart SERVICE     Restart service
+sudo systemctl reload SERVICE      Reload config (no restart)
+sudo systemctl status SERVICE      Show service status
+sudo systemctl enable SERVICE      Enable on boot
+sudo systemctl disable SERVICE     Disable on boot
+sudo systemctl enable --now SERVICE Enable and start
+sudo systemctl is-enabled SERVICE  Check if enabled
+sudo systemctl is-active SERVICE   Check if running
+sudo systemctl mask SERVICE        Prevent start (even manual)
+sudo systemctl unmask SERVICE      Allow start
+
+SERVICE LISTING
+---------------
+systemctl list-units --type=service
+systemctl list-units --type=service --all
+systemctl list-units --type=service --state=running
+systemctl list-units --type=service --state=failed
+
+SERVICE DETAILS
+---------------
+systemctl cat SERVICE              Show unit file
+systemctl show SERVICE             Show all properties
+systemctl show -p MainPID SERVICE  Show specific property
+systemctl show -p ExecStart SERVICE Show service command
+systemctl list-dependencies SERVICE Show dependencies
+
+SERVICE TROUBLESHOOTING
+-----------------------
+sudo journalctl -u SERVICE         Show service logs
+sudo journalctl -u SERVICE -f      Follow logs in real-time
+sudo journalctl -u SERVICE -n 20   Show last 20 lines
+sudo journalctl -u SERVICE -p err  Show errors only
+systemctl status SERVICE           Show current status
+systemctl is-active SERVICE        Quick status check
+
+================================================================================
+SECTION 5: BOOT TARGETS AND RUNLEVELS
+================================================================================
+
+TARGET MANAGEMENT
+-----------------
+sudo systemctl get-default         Show default boot target
+sudo systemctl set-default TARGET  Set default target
+sudo systemctl isolate TARGET      Switch to target now (no reboot)
+systemctl list-units --type=target List all targets
+systemctl list-units --type=target --all
+sudo systemctl cat TARGET          Show target details
+systemctl list-dependencies TARGET Show target dependencies
+
+COMMON TARGETS
+--------------
+graphical.target                   GUI desktop (like runlevel 5)
+multi-user.target                  CLI multi-user (like runlevel 3)
+rescue.target                       Single user, mostly started (like runlevel 1)
+emergency.target                    Emergency shell, minimal
+poweroff.target                     System poweroff
+reboot.target                       System reboot
+
+TARGET SWITCHING EXAMPLES
+-------------------------
+sudo systemctl isolate graphical.target    Switch to GUI
+sudo systemctl isolate multi-user.target   Switch to CLI
+sudo systemctl isolate rescue.target       Enter rescue mode
+sudo systemctl rescue                      Enter rescue mode
+sudo systemctl emergency                   Enter emergency mode
+
+GRUB BOOT PARAMETERS
+---------------------
+systemd.unit=rescue.target               Boot to rescue mode
+systemd.unit=emergency.target            Boot to emergency mode
+systemd.unit=graphical.target            Boot to graphical
+systemd.unit=multi-user.target           Boot to CLI
+(Set during GRUB boot by pressing 'e', edit, add parameter, Ctrl+X)
+
+================================================================================
+SECTION 6: PACKAGE MANAGEMENT
+================================================================================
+
+YUM/DNF COMMANDS
+----------------
+sudo yum install PACKAGE           Install package
+sudo yum remove PACKAGE            Remove package
+sudo yum update                    Update all packages
+sudo yum upgrade                   Upgrade all packages
+sudo yum search KEYWORD            Search for package
+yum info PACKAGE                   Show package info
+yum list installed                 List installed packages
+yum list available                 List available packages
+yum check-update                   Check for updates
+sudo yum reinstall PACKAGE         Reinstall package
+sudo yum downgrade PACKAGE         Downgrade to older version
+
+(Same commands work with 'dnf' on newer systems)
+
+LOCAL PACKAGE INSTALLATION
+---------------------------
+sudo yum install /path/to/package.rpm
+sudo yum install /path/to/packages/*.rpm
+sudo dnf install /path/to/package.rpm
+
+PACKAGE GROUPS
+--------------
+yum grouplist                      List available groups
+sudo yum groupinstall "GROUP NAME" Install package group
+sudo yum groupremove "GROUP NAME"  Remove package group
+yum groupinfo "GROUP NAME"         Show group information
+
+PACKAGE DETAILS
+---------------
+yum provides FILE                  Find package providing file
+yum provides /etc/httpd/conf/httpd.conf
+yum deplist PACKAGE                Show dependencies
+rpm -qa | grep KEYWORD             List installed packages
+rpm -ql PACKAGE                    List package files
+
+PACKAGE HISTORY
+---------------
+yum history                        Show package history
+yum history info 5                 Show transaction details
+sudo yum history undo 5            Undo transaction 5
+sudo yum history redo 5            Redo transaction 5
+
+SECURITY UPDATES
+----------------
+yum list updates                   List available updates
+sudo yum update --security         Install security updates only
+yum check-update --security        Check for security updates
+
+CACHE MANAGEMENT
+----------------
+sudo yum clean all                 Clean package cache
+sudo yum clean metadata            Clean metadata cache
+sudo yum makecache                 Rebuild cache
+
+================================================================================
+SECTION 7: REPOSITORY MANAGEMENT
+================================================================================
+
+YUM-CONFIG-MANAGER
+-------------------
+sudo yum-config-manager --add-repo=URL
+sudo yum-config-manager --enable REPO-ID
+sudo yum-config-manager --disable REPO-ID
+sudo yum-config-manager --setopt=REPO-ID.enabled=1
+yum-config-manager --dump          Show all repositories
+yum-config-manager REPO-ID         Show specific repository
+
+REPOSITORY CONFIGURATION FILES
+------------------------------
+cat /etc/yum.repos.d/rhel.repo     View repository config
+sudo vi /etc/yum.repos.d/custom.repo Create custom repo
+ls -la /etc/yum.repos.d/           List all repo configs
+
+SUBSCRIPTION MANAGEMENT
+-----------------------
+sudo subscription-manager register --username USER --password PASS
+sudo subscription-manager status   Show subscription status
+sudo subscription-manager attach --auto Auto-attach subscriptions
+sudo subscription-manager list --available Show available subscriptions
+sudo subscription-manager list --installed Show installed subscriptions
+sudo subscription-manager remove --all Remove all subscriptions
+sudo subscription-manager unregister Unregister system
+
+================================================================================
+SECTION 8: BOOTLOADER (GRUB) CONFIGURATION
+================================================================================
+
+GRUB CONFIGURATION FILE
+-----------------------
+cat /etc/default/grub              View GRUB configuration
+sudo vi /etc/default/grub          Edit GRUB configuration
+
+COMMON GRUB PARAMETERS
+----------------------
+GRUB_TIMEOUT=5                     Seconds before auto-boot
+GRUB_DEFAULT=0                     Default menu entry (0=first)
+GRUB_CMDLINE_LINUX="quiet rhgb"    Kernel parameters
+GRUB_DISABLE_SUBMENU=true          Disable submenu
+
+REGENERATING GRUB CONFIGURATION
+--------------------------------
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg (BIOS)
+sudo grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg (UEFI)
+
+GRUBBY COMMAND
+--------------
+sudo grubby --info=ALL             List kernel entries
+sudo grubby --default-kernel       Show default kernel
+sudo grubby --set-default=/boot/vmlinuz-VERSION
+sudo grubby --update-kernel=ALL --args="PARAM=VALUE"
+sudo grubby --update-kernel=ALL --remove-args="PARAM"
+
+BOOT PARAMETERS
+---------------
+selinux=0                          Disable SELinux
+systemd.unit=rescue.target         Boot to rescue mode
+systemd.unit=emergency.target      Boot to emergency mode
+debug                              Enable debug output
+quiet                              Disable boot messages
+nomask                             Don't mask interrupts
+
+ACCESSING GRUB MENU AT BOOT
+----------------------------
+BIOS: Hold Shift during boot
+UEFI: Press Esc during boot
+At GRUB menu:
+  'e' = Edit entry
+  'c' = Command line
+  Enter = Boot selected entry
+
+================================================================================
+SECTION 9: SYSTEM MAINTENANCE
+================================================================================
+
+CHECKING SYSTEM HEALTH
+----------------------
+df -h                              Disk usage (human-readable)
+df -T                              Disk usage with filesystem type
+du -sh DIRECTORY                   Directory size
+free -h                            Memory usage (human-readable)
+uptime                             System uptime and load
+top                                Top processes (interactive)
+htop                               Enhanced top (if installed)
+ps aux                             List all processes
+ps aux | wc -l                     Count processes
+
+LOGS AND ERRORS
+---------------
+sudo journalctl                    Show all journal logs
+sudo journalctl -b                 Show boot messages
+sudo journalctl -f                 Follow logs in real-time
+sudo journalctl -n 50              Show last 50 lines
+sudo journalctl -p err             Show errors only
+sudo journalctl -u SERVICE         Show service logs
+sudo journalctl --since "2024-01-15" Show logs from date
+sudo dmesg                         Show kernel messages
+sudo dmesg | grep -i error         Show kernel errors
+tail -f /var/log/messages          Follow system log
+tail -f /var/log/secure            Follow security log
+
+SYSTEM UPDATES
+--------------
+sudo yum check-update              Check for updates
+sudo yum update                    Update packages
+sudo yum upgrade                   Upgrade system
+sudo yum update kernel             Update kernel only
+sudo reboot                        Reboot after updates
+
+KERNEL INFORMATION
+------------------
+uname -r                           Show current kernel
+uname -a                           Show all kernel info
+rpm -qa | grep kernel              List installed kernels
+rpm -qa kernel                     List kernel packages
+sudo grubby --info=ALL             Show GRUB kernel entries
+
+SECURITY UPDATES
+----------------
+yum list updates                   List available updates
+yum list updates | grep -i security Show security updates
+sudo yum update --security         Install security updates
+yum check-update --security        Check security updates
+
+CLEANUP
+-------
+sudo yum clean all                 Clean package cache
+sudo yum autoremove                Remove unused packages
+sudo rm -rf /tmp/*                 Clean temp files
+sudo rm -rf /var/tmp/*             Clean var temp
+sudo journalctl --vacuum=1G        Limit journal to 1GB
+
+AUTOMATIC UPDATES (YUM-CRON)
+----------------------------
+sudo yum install yum-cron          Install yum-cron
+sudo systemctl enable yum-cron     Enable on boot
+sudo systemctl start yum-cron      Start service
+sudo vi /etc/yum/yum-cron.conf     Configure auto-updates
+apply_updates = yes                Enable auto-apply
+
+================================================================================
+SUMMARY OF MOST IMPORTANT COMMANDS
+================================================================================
+
+Time:
+  timedatectl set-timezone TIMEZONE
+  sudo chronyc tracking
+
+Hostname & Network:
+  sudo hostnamectl set-hostname NAME
+  sudo nmcli connection modify NAME ipv4.addresses "IP/PREFIX"
+
+Scheduling:
+  at TIME
+  crontab -e
+  sudo systemctl start TIMER.timer
+
+Services:
+  sudo systemctl enable --now SERVICE
+  sudo systemctl status SERVICE
+
+Boot:
+  sudo systemctl get-default
+  sudo systemctl set-default TARGET
+
+Packages:
+  sudo yum install PACKAGE
+  sudo yum update
+
+Bootloader:
+  sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+  sudo grubby --update-kernel=ALL --args="PARAM=VALUE"
+
+================================================================================
+END OF QUICK REFERENCE
+================================================================================
