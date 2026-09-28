@@ -1,0 +1,15 @@
+RHCSA MODULE 7: CREATE SIMPLE SHELL SCRIPTS
+===========================================
+Status: Study materials created
+
+Topics: Bash script creation, conditions/tests, loops, positional arguments,
+command output, input processing, syntax checks, and exit status.
+
+Files:
+- ../07_Create_Simple_Shell_Scripts_Lab_Notes.md
+- INDEX.md
+- Lab_Exercises.md
+- Quick_Reference.txt
+- MODULE_7_SUMMARY.md
+
+Study time: 6-10 hours

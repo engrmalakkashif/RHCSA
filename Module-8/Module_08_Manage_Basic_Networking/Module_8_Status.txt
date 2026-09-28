@@ -1,0 +1,15 @@
+RHCSA MODULE 8: MANAGE BASIC NETWORKING
+========================================
+Status: Study material created
+
+Topics: NetworkManager, IPv4, IPv6, name resolution, startup services,
+firewalld, persistent verification.
+
+Files:
+- ../08_Manage_Basic_Networking_Lab_Notes.md
+- INDEX.md
+- Lab_Exercises.md
+- Quick_Reference.txt
+- MODULE_8_SUMMARY.md
+
+Study time: 10-14 hours

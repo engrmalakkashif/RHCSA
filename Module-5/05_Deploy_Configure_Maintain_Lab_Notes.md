@@ -1049,7 +1049,7 @@ GRUB_TIMEOUT=10
 GRUB_DEFAULT=1
 
 # Example: Add kernel parameter
-GRUB_CMDLINE_LINUX="quiet rhgb selinux=0"
+GRUB_CMDLINE_LINUX="quiet rhgb"
 
 # Example: Disable graphics
 GRUB_TERMINAL_OUTPUT=console
@@ -1066,10 +1066,11 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 sudo grubby --update-kernel=ALL --args="parameter=value"
 ```
 
-**For UEFI Systems:**
+**For UEFI Systems (RHEL 8/9):**
 ```bash
-# Regenerate EFI configuration
-sudo grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+# Regenerate the main configuration. The EFI-side grub.cfg is a forwarding
+# stub on RHEL 8/9; do not overwrite it.
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # Or
 sudo grubby --update-kernel=ALL --args="parameter=value"
@@ -1080,8 +1081,8 @@ sudo grubby --update-kernel=ALL --args="parameter=value"
 Common kernel parameters:
 
 ```bash
-# Disable SELinux
-selinux=0
+# Avoid selinux=0: it disables SELinux. Change mode using setenforce or
+# /etc/selinux/config only when a task explicitly requires permissive mode.
 
 # Set runlevel/target
 systemd.unit=rescue.target
@@ -1207,30 +1208,30 @@ sudo reboot
 ### Security Updates
 
 ```bash
-# Check for security updates
-sudo yum list updates | grep -i security
+# List security advisories with DNF metadata
+sudo dnf updateinfo list --security
 
 # Install security updates only
-sudo yum update --security
+sudo dnf upgrade --security
 
 # Check security advisories
-sudo yum check-update --security
+sudo dnf updateinfo summary --security
 ```
 
 ### Automatic Updates
 
-**Using yum-cron:**
+**Using dnf-automatic on RHEL 8/9:**
 
 ```bash
-# Install yum-cron
-sudo yum install yum-cron
+# Install DNF automatic update support
+sudo dnf install dnf-automatic
 
-# Enable service
-sudo systemctl enable yum-cron
-sudo systemctl start yum-cron
+# Enable the timer (review organizational policy before enabling auto-updates)
+sudo systemctl enable --now dnf-automatic.timer
+systemctl status dnf-automatic.timer
 
-# Configure automatic updates
-sudo vi /etc/yum/yum-cron.conf
+# Configure automatic update behavior
+sudo vi /etc/dnf/automatic.conf
 
 # Apply section settings:
 apply_updates = yes    # Auto-apply updates
@@ -1239,21 +1240,20 @@ apply_updates = yes    # Auto-apply updates
 ### System Cleanup
 
 ```bash
-# Remove cached packages
-sudo yum clean all
+# Remove cached package metadata and packages
+sudo dnf clean all
 
-# Remove old kernels (keep 3 latest)
-sudo yum remove $(yum list kernel | tail -n +2 | head -n -3 | awk '{print $1}')
+# Review removable packages before accepting any cleanup transaction
+sudo dnf autoremove
 
-# Clean temporary files
-sudo rm -rf /tmp/*
-sudo rm -rf /var/tmp/*
+# Do not blindly delete /tmp, /var/tmp, or old log files. Applications may
+# still use them; use systemd-tmpfiles and logrotate policies instead.
 
 # Clear journal logs (keep 1G)
 sudo journalctl --vacuum=1G
 
-# Remove old log files
-sudo find /var/log -type f -mtime +30 -delete
+# Inspect logrotate policy rather than deleting logs with find
+sudo logrotate -d /etc/logrotate.conf
 ```
 
 ---

@@ -1,0 +1,15 @@
+RHCSA MODULE 9: MANAGE USERS AND GROUPS
+=======================================
+Status: Study material created
+
+Topics: Local users, passwords and aging, groups, memberships, sudo access,
+verification and persistence.
+
+Files:
+- ../09_Manage_Users_Groups_Lab_Notes.md
+- INDEX.md
+- Lab_Exercises.md
+- Quick_Reference.txt
+- MODULE_9_SUMMARY.md
+
+Study time: 8-12 hours

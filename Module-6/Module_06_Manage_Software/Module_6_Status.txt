@@ -1,0 +1,17 @@
+RHCSA MODULE 6: MANAGE SOFTWARE
+==================================================
+Status: Study material created
+
+Contents:
+- DNF repositories and RPM package operations
+- Flatpak remotes and application lifecycle
+- Five hands-on labs
+
+Files:
+- ../06_Manage_Software_Lab_Notes.md
+- INDEX.md
+- Lab_Exercises.md
+- Quick_Reference.txt
+- MODULE_6_SUMMARY.md
+
+Study time: 6-8 hours

@@ -1,17 +1,13 @@
 # RHCSA Exam Preparation Guide
 ## Red Hat Certified System Administrator (EX200) Study Material
 
-**Last Updated:** September 17, 2026  
-**Version:** 2.2  
-**Status:** 🟢 Modules 1-5 Complete | Modules 6-12 In Planning
+**Last Updated:** September 28, 2026
+**Version:** 2.4
+**Status:** Study materials are present for all 10 groups in the supplied outline
 
-**Progress:** ✅ 5/12 Modules Complete (42%)
-- Module 1: COMPLETE (100%)
-- Module 2: COMPLETE (100%)
-- Module 3: COMPLETE (100%)
-- Module 4: COMPLETE (100%)
-- Module 5: COMPLETE (100%)
-- Modules 6-12: In Development
+**Progress:** Ten module packages are present. Their coverage is a study aid, not a guarantee of exam readiness; practice every objective on a RHEL-compatible system.
+- Modules 1-5: Existing study material, reviewed for this objective set
+- Modules 6-10: Study material added and audited
 
 ---
 
@@ -71,20 +67,18 @@ This repository contains comprehensive study materials for the **Red Hat Certifi
 
 ### Exam Objectives
 
-The RHCSA exam tests your ability to:
+The supplied study-point outline groups the objectives into these ten areas:
 
-1. ✅ Understand and use essential tools
-2. ✅ Operate running systems
-3. ✅ Configure local storage
-4. ✅ Create and configure file systems
-5. ✅ Deploy, configure, and maintain systems
-6. ✅ Manage users and groups
-7. ✅ Manage security
-8. ✅ Manage basic networking
-9. ✅ Manage packages and repositories
-10. ✅ Manage processes and services
-11. ✅ Manage SELinux security
-12. ✅ Manage containers
+1. Understand and use essential tools
+2. Manage software
+3. Create simple shell scripts
+4. Operate running systems
+5. Configure local storage
+6. Create and configure file systems
+7. Deploy, configure, and maintain systems
+8. Manage basic networking
+9. Manage users and groups
+10. Manage security
 
 ### Exam Format
 
@@ -99,7 +93,7 @@ The RHCSA is **performance-based**, which means:
 
 ## 🗂️ Study Structure
 
-This preparation guide is organized into **12 major modules**, each containing:
+This preparation guide is organized into **10 major modules**, each containing:
 
 1. **Detailed Notes** - Comprehensive explanations with examples
 2. **Practical Lab Exercises** - Hands-on practice tasks
@@ -127,15 +121,14 @@ This preparation guide is organized into **12 major modules**, each containing:
 - System documentation (man, info, whatis)
 
 **Deliverables:**
-- ✅ `01_Essential_Tools_Lab_Notes.md` - 3,400+ lines comprehensive reference
-- ✅ `Module_01_Essential_Tools/Quick_Reference.txt` - Command cheat sheet
-- ✅ `Module_01_Essential_Tools/Lab_Exercises.md` - 12 hands-on exercises
-- ✅ `Module_01_Essential_Tools/INDEX.md` - Study guide & navigation
-- ✅ `Module_01_Essential_Tools/MODULE_1_SUMMARY.md` - Coverage & statistics
-- ✅ `Module_01_Essential_Tools/Module_1_Status.txt` - Quick status report
+- ✅ `Module-1/01_Essential_Tools_Lab_Notes.md` - Comprehensive reference
+- ✅ `Module-1/Module_01_Essential_Tools/Quick_Reference.txt` - Command cheat sheet
+- ✅ `Module-1/Module_01_Essential_Tools/Lab_Exercises.md` - Hands-on exercises
+- ✅ `Module-1/Module_01_Essential_Tools/INDEX.md` - Study guide & navigation
+- ✅ `Module-1/Module_01_Essential_Tools/MODULE_1_SUMMARY.md` - Coverage & statistics
+- ✅ `Module-1/Module_01_Essential_Tools/Module_1_Status.txt` - Quick status report
 
-**Content:** 7,000+ lines | 400+ examples | 70+ commands | 12 exercises
-**Exam Coverage:** 100% of objectives
+**Content:** Detailed notes, labs, quick reference, and navigation guide
 **Study Time:** 12-15 hours (3 learning paths available)
 
 **Quick Start:**
@@ -160,15 +153,14 @@ This preparation guide is organized into **12 major modules**, each containing:
 - Process scheduling and priorities
 
 **Deliverables:**
-- ✅ `02_Operate_Running_Systems_Lab_Notes.md` - 2,500+ lines reference
-- ✅ `Module_02_Operating_Systems/Quick_Reference.txt` - Command cheat sheet
-- ✅ `Module_02_Operating_Systems/Lab_Exercises.md` - 8 hands-on exercises
-- ✅ `Module_02_Operating_Systems/INDEX.md` - Study guide & navigation
-- ✅ `Module_02_Operating_Systems/MODULE_2_SUMMARY.md` - Coverage & statistics
-- ✅ `COMPLETION_REPORT.md` - Project status documentation
+- ✅ `Module-2/02_Operate_Running_Systems_Lab_Notes.md` - Detailed reference
+- ✅ `Module-2/Module_02_Operating_Systems/Quick_Reference.txt` - Command cheat sheet
+- ✅ `Module-2/Module_02_Operating_Systems/Lab_Exercises.md` - Hands-on exercises
+- ✅ `Module-2/Module_02_Operating_Systems/INDEX.md` - Study guide & navigation
+- ✅ `Module-2/MODULE_2_SUMMARY.md` - Coverage & statistics
+- ✅ `Module-2/COMPLETION_REPORT.md` - Project status documentation
 
-**Content:** 5,000+ lines | 350+ examples | 40+ commands | 8 exercises
-**Exam Coverage:** 100% of objectives
+**Content:** Detailed notes, nine lab sections, quick reference, and navigation guide
 **Study Time:** 10-12 hours (3 learning paths available)
 
 **Quick Start:**
@@ -193,15 +185,14 @@ This preparation guide is organized into **12 major modules**, each containing:
 - Non-destructive storage expansion
 
 **Deliverables:**
-- ✅ `03_Configure_Local_Storage_Lab_Notes.md` - 3,400+ lines reference
-- ✅ `Module_03_Configure_Local_Storage/Quick_Reference.txt` - Command cheat sheet
-- ✅ `Module_03_Configure_Local_Storage/Lab_Exercises.md` - 8 hands-on exercises
-- ✅ `Module_03_Configure_Local_Storage/INDEX.md` - Study guide & navigation
-- ✅ `Module_03_Configure_Local_Storage/MODULE_3_SUMMARY.md` - Coverage & statistics
-- ✅ `Module_03_Configure_Local_Storage/Module_3_Status.txt` - Quick status report
+- ✅ `Module-3/03_Configure_Local_Storage_Lab_Notes.md` - Detailed reference
+- ✅ `Module-3/Quick_Reference.txt` - Command cheat sheet
+- ✅ `Module-3/Lab_Exercises.md` - Hands-on exercises
+- ✅ `Module-3/INDEX.md` - Study guide & navigation
+- ✅ `Module-3/MODULE_3_SUMMARY.md` - Coverage & statistics
+- ✅ `Module-3/Module_3_Status.txt` - Quick status report
 
-**Content:** 7,500+ lines | 450+ examples | 50+ commands | 8 exercises
-**Exam Coverage:** 100% of objectives
+**Content:** Detailed notes, hands-on storage labs, quick reference, and navigation guide
 **Study Time:** 12-15 hours (3 learning paths available)
 
 **Quick Start:**
@@ -227,15 +218,14 @@ This preparation guide is organized into **12 major modules**, each containing:
 - File permission troubleshooting
 
 **Deliverables:**
-- ✅ `04_Create_Configure_Filesystems_Lab_Notes.md` - 3,500+ lines comprehensive reference
-- ✅ `Module_04_Filesystems/Quick_Reference.txt` - Command cheat sheet
-- ✅ `Module_04_Filesystems/Lab_Exercises.md` - 8 hands-on exercises
-- ✅ `Module_04_Filesystems/INDEX.md` - Study guide & navigation
-- ✅ `Module_04_Filesystems/MODULE_4_SUMMARY.md` - Coverage & statistics
-- ✅ `Module_04_Filesystems/Module_4_Status.txt` - Quick status report
+- ✅ `Module-4/04_Create_Configure_Filesystems_Lab_Notes.md` - Comprehensive reference
+- ✅ `Module-4/Module_04_Filesystems/Quick_Reference.txt` - Command cheat sheet
+- ✅ `Module-4/Module_04_Filesystems/Lab_Exercises.md` - Hands-on exercises
+- ✅ `Module-4/Module_04_Filesystems/INDEX.md` - Study guide & navigation
+- ✅ `Module-4/Module_04_Filesystems/MODULE_4_SUMMARY.md` - Coverage & statistics
+- ✅ `Module-4/Module_04_Filesystems/Module_4_Status.txt` - Quick status report
 
-**Content:** 8,300+ lines | 350+ examples | 48+ commands | 8 exercises
-**Exam Coverage:** 100% of objectives
+**Content:** Detailed notes, filesystem labs, quick reference, and navigation guide
 **Study Time:** 12-15 hours (3 learning paths available)
 
 **Quick Start:**
@@ -262,15 +252,14 @@ This preparation guide is organized into **12 major modules**, each containing:
 - Kernel parameter management
 
 **Deliverables:**
-- ✅ `05_Deploy_Configure_Maintain_Lab_Notes.md` - 3,500+ lines comprehensive reference
-- ✅ `Module_05_Deploy_Systems/Quick_Reference.txt` - Command cheat sheet
-- ✅ `Module_05_Deploy_Systems/Lab_Exercises.md` - 8 hands-on exercises
-- ✅ `Module_05_Deploy_Systems/INDEX.md` - Study guide & navigation
-- ✅ `Module_05_Deploy_Systems/MODULE_5_SUMMARY.md` - Coverage & statistics
-- ✅ `Module_05_Deploy_Systems/Module_5_Status.txt` - Quick status report
+- ✅ `Module-5/05_Deploy_Configure_Maintain_Lab_Notes.md` - Comprehensive reference
+- ✅ `Module-5/Module_05_Deploy_Systems/Quick_Reference.txt` - Command cheat sheet
+- ✅ `Module-5/Module_05_Deploy_Systems/Lab_Exercises.md` - Hands-on exercises
+- ✅ `Module-5/Module_05_Deploy_Systems/INDEX.md` - Study guide & navigation
+- ✅ `Module-5/Module_05_Deploy_Systems/MODULE_5_SUMMARY.md` - Coverage & statistics
+- ✅ `Module-5/Module_05_Deploy_Systems/Module_5_Status.txt` - Quick status report
 
-**Content:** 8,700+ lines | 300+ examples | 83+ commands | 8 exercises
-**Exam Coverage:** 100% of objectives
+**Content:** Detailed notes, configuration labs, quick reference, and navigation guide
 **Study Time:** 14-18 hours (3 learning paths available)
 
 **Quick Start:**
@@ -280,157 +269,70 @@ This preparation guide is organized into **12 major modules**, each containing:
 
 ---
 
-### Module 6: Manage Users and Groups (In Development)
+### Module 6: Manage Software
 
-**Topics to Cover:**
-- Create and delete users
-- Create and delete groups
-- Modify user properties
-- Configure sudo access
-- /etc/passwd, /etc/shadow, /etc/group
-- User profiles and environment
-- Password policies
-- User expiration and locking
-- Group management
-- ID mapping
+**Topics Covered:**
+- Configure access to RPM repositories
+- Install/remove RPM packages and query/verify RPMs
+- Configure Flatpak repositories and install/remove Flatpak applications
 
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `06_Manage_Users_Groups_Lab_Notes.md`
-- `06_Quick_Reference.txt`
-- `06_Lab_Exercises.md`
+**Materials:** [Lab Notes](Module-6/06_Manage_Software_Lab_Notes.md) | [Index](Module-6/Module_06_Manage_Software/INDEX.md) | [Labs](Module-6/Module_06_Manage_Software/Lab_Exercises.md) | [Quick Reference](Module-6/Module_06_Manage_Software/Quick_Reference.txt)
+**Status:** Study materials added | **Study Time:** 6-8 hours
 
 ---
 
-### Module 7: Manage Security
+### Module 7: Create Simple Shell Scripts
 
-**Topics to Cover:**
-- Firewall configuration (firewalld)
-- SSH security
-- sudo configuration
-- File permissions and ACLs
-- umask and default permissions
-- Special permissions (setuid, setgid, sticky bit)
-- User access control
-- SSH key management
-- Security best practices
-- Audit logging
+**Topics Covered:**
+- Create and execute simple shell scripts
+- Use conditions and tests (`if`, `test`, `[ ]`, `[[ ]]`)
+- Loop over files and command-line input
+- Process positional parameters and command output
 
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `07_Manage_Security_Lab_Notes.md`
-- `07_Quick_Reference.txt`
-- `07_Lab_Exercises.md`
+**Materials:** [Lab Notes](Module-7/07_Create_Simple_Shell_Scripts_Lab_Notes.md) | [Index](Module-7/Module_07_Create_Simple_Shell_Scripts/INDEX.md) | [Labs](Module-7/Module_07_Create_Simple_Shell_Scripts/Lab_Exercises.md) | [Quick Reference](Module-7/Module_07_Create_Simple_Shell_Scripts/Quick_Reference.txt)
+**Status:** Study materials added | **Study Time:** 6-10 hours
 
 ---
 
 ### Module 8: Manage Basic Networking
 
-**Topics to Cover:**
-- Network interfaces
-- IPv4 and IPv6
-- Static and dynamic IP configuration
-- Network configuration files
-- nmcli and nmtui tools
-- Hostname and DNS
-- Routing
-- Network troubleshooting (ping, traceroute, netstat)
-- Connection priorities
-- Bridge configuration
+**Topics Covered:**
+- Configure persistent IPv4 and IPv6 addresses with NetworkManager
+- Configure hostname resolution
+- Configure network connections and services to start at boot
+- Restrict access with firewalld and firewall-cmd
 
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `08_Manage_Networking_Lab_Notes.md`
-- `08_Quick_Reference.txt`
-- `08_Lab_Exercises.md`
+**Materials:** [Lab Notes](Module-8/08_Manage_Basic_Networking_Lab_Notes.md) | [Index](Module-8/Module_08_Manage_Basic_Networking/INDEX.md) | [Labs](Module-8/Module_08_Manage_Basic_Networking/Lab_Exercises.md) | [Quick Reference](Module-8/Module_08_Manage_Basic_Networking/Quick_Reference.txt)
+**Status:** Study materials added | **Study Time:** 10-14 hours
 
 ---
 
-### Module 9: Manage Packages and Repositories
+### Module 9: Manage Users and Groups
 
-**Topics to Cover:**
-- Package management with yum/dnf
-- Repository configuration
-- Installing and removing packages
-- Updating systems
-- Working with package groups
-- Managing dependencies
-- yum plugins and extensions
-- rpm command usage
-- Kernel updates
-- RPM queries and verification
+**Topics Covered:**
+- Create, modify, and delete local user accounts
+- Set passwords and password aging
+- Create and manage local groups and memberships
+- Configure and validate privileged access with sudo
 
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `09_Manage_Packages_Lab_Notes.md`
-- `09_Quick_Reference.txt`
-- `09_Lab_Exercises.md`
+**Materials:** [Lab Notes](Module-9/09_Manage_Users_Groups_Lab_Notes.md) | [Index](Module-9/Module_09_Manage_Users_Groups/INDEX.md) | [Labs](Module-9/Module_09_Manage_Users_Groups/Lab_Exercises.md) | [Quick Reference](Module-9/Module_09_Manage_Users_Groups/Quick_Reference.txt)
+**Status:** Study materials added | **Study Time:** 8-12 hours
 
 ---
 
-### Module 10: Manage Processes and Services
+### Module 10: Manage Security
 
-**Topics to Cover:**
-- Process management (ps, pgrep, pkill)
-- Process prioritization (nice, renice)
-- Job control (fg, bg, jobs)
-- systemd and systemctl
-- Service management
-- Unit files
-- Enable/disable services
-- Process monitoring
-- Process limits
-- Logging and journalctl
+**Topics Covered:**
+- Manage default file permissions with umask
+- Configure SSH public-key authentication
+- Set SELinux enforcing/permissive modes
+- Inspect and restore file contexts
+- Manage SELinux port labels and booleans
+- Configure firewalld settings (full workflow in Module 8)
+- Verify security configuration persists after reboot
 
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `10_Manage_Processes_Services_Lab_Notes.md`
-- `10_Quick_Reference.txt`
-- `10_Lab_Exercises.md`
-
----
-
-### Module 11: Manage SELinux Security
-
-**Topics to Cover:**
-- SELinux modes (enforcing, permissive, disabled)
-- Contexts and labels
-- Boolean management (getsebool, setsebool)
-- Policy management
-- Troubleshooting SELinux issues
-- restorecon and chcon
-- File contexts
-- User contexts
-- Audit logs and troubleshooting
-- Common SELinux problems
-
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `11_Manage_SELinux_Lab_Notes.md`
-- `11_Quick_Reference.txt`
-- `11_Lab_Exercises.md`
-
----
-
-### Module 12: Manage Containers
-
-**Topics to Cover:**
-- Container basics and Docker
-- podman vs docker
-- Container images
-- Running containers
-- Container networking
-- Volume management
-- Container logs
-- Container resource limits
-- Container security
-- Container orchestration basics
-
-**Status:** ⏳ In Development  
-**Expected Files:**
-- `12_Manage_Containers_Lab_Notes.md`
-- `12_Quick_Reference.txt`
-- `12_Lab_Exercises.md`
+**Materials:** [Lab Notes](Module-10/10_Manage_Security_Lab_Notes.md) | [Index](Module-10/Module_10_Manage_Security/INDEX.md) | [Labs](Module-10/Module_10_Manage_Security/Lab_Exercises.md) | [Quick Reference](Module-10/Module_10_Manage_Security/Quick_Reference.txt)
+**Status:** Study materials added | **Study Time:** 12-16 hours
 
 ---
 
@@ -439,26 +341,23 @@ This preparation guide is organized into **12 major modules**, each containing:
 ### Recommended Study Order
 
 ```
-Week 1-2: Foundations
-├── Module 1: Essential Tools (20-30 hrs)
-├── Module 2: Operating Systems (15-20 hrs)
-└── Module 6: Users and Groups (10-15 hrs)
+Week 1-2: Foundations and System Operation
+├── Module 1: Essential Tools
+├── Module 2: Operate Running Systems
+├── Module 6: Manage Software
+└── Module 7: Create Simple Shell Scripts
 
-Week 3-4: Storage & Filesystems
-├── Module 3: Local Storage (20-25 hrs)
-├── Module 4: Filesystems (15-20 hrs)
-└── Practice Integration Labs (10-15 hrs)
+Week 3-4: Storage and Filesystems
+├── Module 3: Configure Local Storage
+└── Module 4: Create and Configure Filesystems
 
-Week 5-6: System Configuration
-├── Module 5: Deploy & Maintain (25-30 hrs)
-├── Module 8: Basic Networking (20-25 hrs)
-└── Module 9: Packages & Repositories (15-20 hrs)
+Week 5-6: Deployment and Networking
+├── Module 5: Deploy, Configure, and Maintain Systems
+└── Module 8: Manage Basic Networking
 
-Week 7-8: Security & Services
-├── Module 7: Security (20-25 hrs)
-├── Module 10: Processes & Services (15-20 hrs)
-├── Module 11: SELinux (20-25 hrs)
-└── Module 12: Containers (15-20 hrs)
+Week 7-8: Accounts and Security
+├── Module 9: Manage Users and Groups
+└── Module 10: Manage Security
 
 Week 9: Practice & Review
 ├── Full Practice Exams (3x 2.5 hours)
@@ -466,7 +365,7 @@ Week 9: Practice & Review
 ├── Weak Area Focus (10-15 hrs)
 └── Final Verification (5-10 hrs)
 
-TOTAL ESTIMATED TIME: 200-250 hours
+Add integration practice and timed exams after completing the modules. The study-time estimates in the module sections exclude repeated review and full practice exams.
 ```
 
 ### Study Schedule Options
@@ -566,89 +465,50 @@ We retain and master through DOING, not reading!
 
 ```
 RHCSA/
-├── README.md                                    # This file - Main guide
-├── Module_1_Status.txt                         # Quick status report
-├── Module_3_Status.txt                         # Quick status report
-├── PROGRESS_TRACKER.md                         # Your progress tracking
-├── SETUP_GUIDE.md                              # Environment setup
-│
-├── 01_Essential_Tools_Lab_Notes.md             # Module 1 - Main reference (3,400 lines)
-├── Module_01_Essential_Tools/                  # Module 1 - Organized files
-│   ├── INDEX.md                                # Study guide & navigation (2,000 lines)
-│   ├── Quick_Reference.txt                     # Cheat sheet (350 lines)
-│   ├── Lab_Exercises.md                        # 12 hands-on exercises (1,400 lines)
-│   ├── MODULE_1_SUMMARY.md                     # Coverage & statistics (1,500 lines)
-│   └── Module_1_Status.txt                     # Quick status report
-│
-├── 02_Operate_Running_Systems_Lab_Notes.md    # Module 2 - Main reference (2,500 lines)
-├── Module_02_Operating_Systems/                # Module 2 - Organized files
-│   ├── INDEX.md                                # Study guide & navigation (1,500 lines)
-│   ├── Quick_Reference.txt                     # Cheat sheet (300 lines)
-│   ├── Lab_Exercises.md                        # 8 hands-on exercises (1,200 lines)
-│   ├── MODULE_2_SUMMARY.md                     # Coverage & statistics (1,500 lines)
-│   └── COMPLETION_REPORT.md                    # Project status
-│
-├── 03_Configure_Local_Storage_Lab_Notes.md    # Module 3 - Main reference (3,400 lines)
-├── Module_03_Configure_Local_Storage/          # Module 3 - Organized files
-│   ├── INDEX.md                                # Study guide & navigation (2,000 lines)
-│   ├── Quick_Reference.txt                     # Cheat sheet (350 lines)
-│   ├── Lab_Exercises.md                        # 8 hands-on exercises (1,400 lines)
-│   ├── MODULE_3_SUMMARY.md                     # Coverage & statistics (1,500 lines)
-│   └── Module_3_Status.txt                     # Quick status report
-│
-├── 04_Create_Configure_Filesystems_Lab_Notes.md # Module 4 - Main reference (3,500 lines)
-├── Module_04_Filesystems/                      # Module 4 - Organized files
-│   ├── INDEX.md                                # Study guide & navigation (1,500 lines)
-│   ├── Quick_Reference.txt                     # Cheat sheet (600 lines)
-│   ├── Lab_Exercises.md                        # 8 hands-on exercises (1,200 lines)
-│   ├── MODULE_4_SUMMARY.md                     # Coverage & statistics (1,500 lines)
-│   └── Module_4_Status.txt                     # Quick status report
-│
-├── 05_Deploy_Configure_Maintain_Lab_Notes.md  # Module 5 - Main reference (3,500 lines)
-├── Module_05_Deploy_Systems/                   # Module 5 - Organized files
-│   ├── INDEX.md                                # Study guide & navigation (1,500 lines)
-│   ├── Quick_Reference.txt                     # Cheat sheet (800 lines)
-│   ├── Lab_Exercises.md                        # 8 hands-on exercises (1,400 lines)
-│   ├── MODULE_5_SUMMARY.md                     # Coverage & statistics (1,500 lines)
-│   └── Module_5_Status.txt                     # Quick status report
-│
-├── Module_06_Manage_Users_Groups/              # (In Development)
-│
-├── [Modules 06-12...]                          # (In Planning)
-│
-├── Practice_Exams/                             # (In Development)
-│   ├── Practice_Exam_1.md
-│   ├── Practice_Exam_2.md
-│   ├── Practice_Exam_3.md
-│   └── Answer_Keys/
-│
-├── Reference_Materials/                        # Shared references
-│   ├── Command_Cheatsheet.txt
-│   ├── File_Locations.txt
-│   ├── Troubleshooting_Guide.md
-│   └── Best_Practices.md
-│
-└── Resources/                                  # Study resources
-    ├── Study_Schedule.md
-    ├── Study_Tips.md
-    ├── Lab_Setup_Guide.md
-    └── Official_References.md
-
-TOTAL CONTENT: 20,000+ lines of detailed study material
+├── README.md
+├── Module-1/  Essential tools notes, exercises, references, and documents/
+├── Module-2/  Operating systems notes and Module_02_Operating_Systems/
+├── Module-3/  Local storage notes, LVM guide, and exercises/references
+├── Module-4/  Filesystem notes and Module_04_Filesystems/
+├── Module-5/  Deployment notes and Module_05_Deploy_Systems/
+├── Module-6/
+│   ├── 06_Manage_Software_Lab_Notes.md
+│   └── Module_06_Manage_Software/{INDEX.md, Lab_Exercises.md,
+│       Quick_Reference.txt, MODULE_6_SUMMARY.md, Module_6_Status.txt}
+├── Module-7/
+│   ├── 07_Create_Simple_Shell_Scripts_Lab_Notes.md
+│   └── Module_07_Create_Simple_Shell_Scripts/{INDEX.md, Lab_Exercises.md,
+│       Quick_Reference.txt, MODULE_7_SUMMARY.md, Module_7_Status.txt}
+├── Module-8/
+│   ├── 08_Manage_Basic_Networking_Lab_Notes.md
+│   └── Module_08_Manage_Basic_Networking/{INDEX.md, Lab_Exercises.md,
+│       Quick_Reference.txt, MODULE_8_SUMMARY.md, Module_8_Status.txt}
+├── Module-9/
+│   ├── 09_Manage_Users_Groups_Lab_Notes.md
+│   └── Module_09_Manage_Users_Groups/{INDEX.md, Lab_Exercises.md,
+│       Quick_Reference.txt, MODULE_9_SUMMARY.md, Module_9_Status.txt}
+└── Module-10/
+   ├── 10_Manage_Security_Lab_Notes.md
+   └── Module_10_Manage_Security/{INDEX.md, Lab_Exercises.md,
+      Quick_Reference.txt, MODULE_10_SUMMARY.md, Module_10_Status.txt}
 ```
 
 **Module Status Summary:**
 
-| Module | Status | Lines | Examples | Exercises | Study Time |
-|--------|--------|-------|----------|-----------|-----------|
-| 1: Essential Tools | ✅ COMPLETE | 7,000+ | 400+ | 12 | 12-15 hrs |
-| 2: Operating Systems | ✅ COMPLETE | 5,000+ | 350+ | 8 | 10-12 hrs |
-| 3: Local Storage | ✅ COMPLETE | 7,500+ | 450+ | 8 | 12-15 hrs |
-| 4: Filesystems | ✅ COMPLETE | 8,300+ | 350+ | 8 | 12-15 hrs |
-| 5: Deploy & Maintain | ✅ COMPLETE | 8,700+ | 300+ | 8 | 14-18 hrs |
-| 6-12: Other Modules | ⏳ Planned | - | - | - | - |
+| Module | Topic | Status | Study Time |
+|--------|-------|--------|------------|
+| 1 | Essential Tools | Existing materials complete | 12-15 hrs |
+| 2 | Operate Running Systems | Existing materials complete | 10-12 hrs |
+| 3 | Configure Local Storage | Existing materials complete | 12-15 hrs |
+| 4 | Create and Configure Filesystems | Existing materials complete | 12-15 hrs |
+| 5 | Deploy, Configure, and Maintain | Existing materials complete | 14-18 hrs |
+| 6 | Manage Software | Materials added | 6-8 hrs |
+| 7 | Create Simple Shell Scripts | Materials added | 6-10 hrs |
+| 8 | Manage Basic Networking | Materials added | 10-14 hrs |
+| 9 | Manage Users and Groups | Materials added | 8-12 hrs |
+| 10 | Manage Security | Materials added | 12-16 hrs |
 
-**Total Completed:** 36,500+ lines of comprehensive study material
+The repository now has study materials for all ten groups in the supplied outline. Review and practice each objective in a RHEL lab environment.
 
 ---
 
@@ -669,7 +529,7 @@ TOTAL CONTENT: 20,000+ lines of detailed study material
    - Set realistic goals
 
 3. **Setup Your Lab Environment**
-   - Read SETUP_GUIDE.md
+   - Use the environment requirements and lab guidance in the relevant module notes
    - Create VMs or use test system
    - Configure networking
    - Test connectivity
@@ -753,13 +613,11 @@ Create a `PROGRESS_TRACKER.md` file to monitor your advancement:
 - [ ] Module 3: Local Storage (0%)
 - [ ] Module 4: Filesystems (0%)
 - [ ] Module 5: Deploy & Maintain (0%)
-- [ ] Module 6: Users & Groups (0%)
-- [ ] Module 7: Security (0%)
-- [ ] Module 8: Networking (0%)
-- [ ] Module 9: Packages (0%)
-- [ ] Module 10: Processes & Services (0%)
-- [ ] Module 11: SELinux (0%)
-- [ ] Module 12: Containers (0%)
+- [ ] Module 6: Manage Software (0%)
+- [ ] Module 7: Create Simple Shell Scripts (0%)
+- [ ] Module 8: Basic Networking (0%)
+- [ ] Module 9: Users & Groups (0%)
+- [ ] Module 10: Security (0%)
 
 ## Study Time
 - Week 1: 25 hours
@@ -785,7 +643,7 @@ Create a `PROGRESS_TRACKER.md` file to monitor your advancement:
 ### Checklist Before Exam
 
 ```
-[ ] All 12 modules completed
+[ ] All 10 objective groups studied
 [ ] All quick reference guides reviewed
 [ ] All lab exercises passed
 [ ] Practice exams: 75%+ on 2+ exams
@@ -914,43 +772,9 @@ Found an issue or have improvement?
 
 ### Current Status (September 2026)
 
-**Completed & Published:**
-- ✅ Module 1: Essential Tools (COMPLETE - 7,000+ lines)
-  - Full lab notes with 12 topics
-  - 12 hands-on exercises with verification
-  - Quick reference guide (350 lines)
-  - INDEX with 3 learning paths
-  - MODULE_1_SUMMARY with complete coverage matrix
-  - Status: 100% exam objectives covered
+Study materials are present for all ten objective groups. Modules 1–5 are the original study set; Modules 6–10 were added to map the remaining supplied groups. Some module notes have now been reviewed and corrected for RHEL 8/9 safety and command accuracy.
 
-- ✅ Module 2: Operate Running Systems (COMPLETE - 5,000+ lines)
-  - Full lab notes with 9 topics
-  - 8 hands-on exercises with verification
-  - Quick reference guide (300 lines)
-  - INDEX with 3 learning paths
-  - MODULE_2_SUMMARY with complete coverage matrix
-  - Status: 100% exam objectives covered
-
-- ✅ Module 3: Configure Local Storage (COMPLETE - 7,500+ lines)
-  - Full lab notes with 8 topics
-  - 8 hands-on exercises with integration lab
-  - Quick reference guide (350 lines)
-  - INDEX with 3 learning paths
-  - MODULE_3_SUMMARY with complete coverage matrix
-  - Status: 100% exam objectives covered
-
-**In Progress:**
-- 🟡 Module 5: Deploy, Configure, and Maintain Systems (Planning)
-- 🟡 Practice Exam Framework (Template development)
-- 🟡 Troubleshooting Guide (In development)
-
-**Planned for Next Updates:**
-- ⏳ Modules 5-12 (Full detailed content, ~8,000 lines each)
-- ⏳ 3 Complete practice exams with answer keys
-- ⏳ Comprehensive troubleshooting guide
-- ⏳ Video walkthrough references
-- ⏳ Advanced integration scenarios
-- ⏳ Community solutions repository
+This repository does not currently include a complete practice-exam suite or a separate troubleshooting guide. Module summaries describe the files and topics; verify each objective with hands-on practice rather than relying on percentage claims.
 
 ### Update Schedule
 
@@ -974,53 +798,13 @@ Found an issue or have improvement?
 
 ### Changelog
 
-**v2.2 (Current - September 17, 2026)**
-- ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)
-  - Lab notes, INDEX, Quick reference, 12 exercises, Summary, Status
-- ✅ Module 2: Operate Running Systems - COMPLETE (5,000+ lines)
-  - Lab notes, INDEX, Quick reference, 8 exercises, Summary, Completion report
-- ✅ Module 3: Configure Local Storage - COMPLETE (7,500+ lines)
-  - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
-- ✅ Module 4: Create and Configure Filesystems - COMPLETE (8,300+ lines)
-  - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
-- ✅ Module 5: Deploy, Configure, and Maintain Systems - COMPLETE (8,700+ lines)
-  - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
-- ✅ Updated README with Module 5 status and coverage
-- Total: 36,500+ lines of study material across 5 modules
-- 100% exam objective coverage for Modules 1-5
+**v2.4 (September 28, 2026)**
+- Added study packages for software management, shell scripting, networking, users/groups, and security.
+- Updated the README to map all ten supplied objective groups to module folders.
+- Corrected RHEL 8/9 bootloader, SELinux recovery, DNF automatic updates, storage troubleshooting, and NFS permission guidance.
+- Removed unsupported line-count and complete-coverage claims from the active status section.
 
-**v2.1 (September 14, 2026)**
-- ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)
-- ✅ Module 2: Operate Running Systems - COMPLETE (5,000+ lines)
-- ✅ Module 3: Configure Local Storage - COMPLETE (7,500+ lines)
-- ✅ Module 4: Create and Configure Filesystems - COMPLETE (8,300+ lines)
-- Updated README with Module 4 status and coverage
-- Total: 27,800+ lines of study material across 4 modules
-
-**v2.0 (September 14, 2026)**
-- ✅ Module 1: Essential Tools - COMPLETE (7,000+ lines)
-  - Lab notes, INDEX, Quick reference, 12 exercises, Summary, Status
-- ✅ Module 2: Operate Running Systems - COMPLETE (5,000+ lines)
-  - Lab notes, INDEX, Quick reference, 8 exercises, Summary, Completion report
-- ✅ Module 3: Configure Local Storage - COMPLETE (7,500+ lines)
-  - Lab notes, INDEX, Quick reference, 8 exercises (including integration lab), Summary, Status
-- ✅ Reorganized Module 1 to match Module 2/3 standards
-- ✅ Updated README with module status and quick reference
-- Total: 19,500+ lines of study material across 3 modules
-- 100% exam objective coverage for Modules 1-3
-
-**v1.1 (September 14, 2026)**
-- Added Module 3: Configure Local Storage (Complete)
-- Created Module 3 Lab Exercises (8 exercises with integration lab)
-- Created Module 3 INDEX and Summary
-- Expanded reference materials
-
-**v1.0 (Initial Release)**
-- Initial repository structure
-- Module 1 complete with detailed notes
-- Quick reference guides
-- Lab exercises framework
-- README and setup guides
+Older releases predate the current folder layout and objective mapping; their line counts and completion claims have been removed because they were not verifiable against the files.
 
 ---
 
@@ -1094,11 +878,14 @@ Don't be discouraged if you find some topics challenging. Every system administr
 ## 📚 Quick Links to Key Resources
 
 ### In This Repository
-- [Setup Guide](SETUP_GUIDE.md) - Environment configuration
-- [Module 1: Essential Tools](Module_01_Essential_Tools/01_Essential_Tools_Lab_Notes.md)
-- [Quick Reference Cards](Module_01_Essential_Tools/Quick_Reference.txt)
-- [Lab Exercises](Module_01_Essential_Tools/Lab_Exercises.md)
-- [Progress Tracker](PROGRESS_TRACKER.md)
+- [Module 1: Essential Tools](Module-1/01_Essential_Tools_Lab_Notes.md)
+- [Module 1 Quick Reference](Module-1/Module_01_Essential_Tools/Quick_Reference.txt)
+- [Module 1 Lab Exercises](Module-1/Module_01_Essential_Tools/Lab_Exercises.md)
+- [Module 6: Manage Software](Module-6/Module_06_Manage_Software/INDEX.md)
+- [Module 7: Shell Scripts](Module-7/Module_07_Create_Simple_Shell_Scripts/INDEX.md)
+- [Module 8: Networking](Module-8/Module_08_Manage_Basic_Networking/INDEX.md)
+- [Module 9: Users and Groups](Module-9/Module_09_Manage_Users_Groups/INDEX.md)
+- [Module 10: Security](Module-10/Module_10_Manage_Security/INDEX.md)
 
 ### External References
 - [Red Hat RHCSA Exam Details](https://www.redhat.com/en/services/training/ex200-red-hat-certified-system-administrator-rhcsa-exam)

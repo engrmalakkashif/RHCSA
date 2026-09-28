@@ -1027,8 +1027,8 @@ ls -l testfile.txt
 chmod 600 testfile.txt
 ls -l testfile.txt
 
-# Set to 777 (rwxrwxrwx)
-chmod 777 testdir
+# Set to 770 (rwxrwx---; owner and group only)
+chmod 770 testdir
 ls -ld testdir
 
 # 10.9 - Directory permissions

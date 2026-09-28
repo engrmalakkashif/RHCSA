@@ -334,6 +334,8 @@ sudo vgreduce vg_name /dev/sda3
 # Removed "/dev/sda3" from volume group "vg_name"
 
 # Remove physical volume
+# Only after confirming the PV is empty, not assigned to a VG, and contains no
+# needed data. Never use this as a generic fix for an existing PV label.
 sudo pvremove /dev/sda3
 # Labels on physical volume "/dev/sda3" successfully wiped
 
@@ -470,12 +472,8 @@ sudo pvremove /dev/sdb2
 sudo vgremove vg_storage
 # Volume group "vg_storage" successfully removed
 
-# Remove with confirmation
-sudo vgremove -f vg_storage    # -f: Force (no confirmation)
-
-# Note: All LVs must be removed first
-# To force remove LVs:
-sudo vgremove -f -ff vg_storage  # -ff: Force remove LVs too
+# `vgremove` is destructive: remove only a disposable, verified-empty VG.
+# Remove its LVs explicitly after checking mounts and data; avoid force flags.
 ```
 
 ### Practical Workflow
@@ -638,8 +636,8 @@ sudo lvremove /dev/vg_storage/lv_backup
 # Do you really want to remove active logical volume vg_storage/lv_backup? [y/n]: y
 # Logical volume "lv_backup" successfully removed
 
-# Force removal (no confirmation)
-sudo lvremove -f /dev/vg_storage/lv_backup
+# `lvremove` destroys the LV contents. Confirm it is unmounted and disposable;
+# prefer the interactive confirmation rather than force flags.
 
 # Remove multiple LVs
 sudo lvremove /dev/vg_storage/lv_temp /dev/vg_storage/lv_test

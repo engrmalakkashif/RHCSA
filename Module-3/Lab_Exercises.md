@@ -105,11 +105,21 @@ sudo reboot
 ```
 
 **Problem:** "Device already contains a recognized partition table"
-```bash
-# Solution: Use -s flag to suppress confirmation
-sudo partprobe -s /dev/sdb
 
-# Or use parted to wipe labels
+Stop and inspect the device. This can indicate existing partitions or data;
+never suppress the warning or replace the label blindly.
+
+```bash
+sudo lsblk -f /dev/sdb
+sudo fdisk -l /dev/sdb
+sudo wipefs -n /dev/sdb
+```
+
+Only if the disk is explicitly confirmed as disposable and the task requires a
+new empty GPT label, use this destructive operation:
+
+```bash
+# DESTRUCTIVE: replaces the disk's existing partition table
 sudo parted -s /dev/sdb mklabel gpt
 ```
 
@@ -187,7 +197,8 @@ sudo pvs -o +pv_used,pv_free
 
 ### Cleanup (if needed):
 ```bash
-# To remove PVs and start over:
+# DESTRUCTIVE: removes LVM labels. Only run on the disposable PVs created by
+# this lab after confirming they are not assigned to any VG and hold no data.
 sudo pvremove /dev/sdb1 /dev/sdb2 /dev/sdb3
 # Labels on physical volume "/dev/sdb1" successfully wiped.
 # (Repeat for each PV)
@@ -1025,7 +1036,7 @@ done
 | Problem | Solution |
 |---------|----------|
 | Partition not visible | Run `sudo partprobe /dev/sda` |
-| PV already exists | Use `sudo pvremove /dev/sdaX` first |
+| PV already exists | Inspect with `pvs`, `pvdisplay`, and `lsblk -f`; do not run `pvremove` unless removal is required and data is backed up |
 | Can't extend LV | Check `sudo vgs` for free space |
 | Mount fails at boot | Test with `sudo mount -a` and check UUID |
 | Swap not working | Verify with `swapon -s` and check /etc/fstab |
@@ -1050,10 +1061,9 @@ sudo e2fsck -n /dev/vg/lv   # (Read-only check)
 sudo mount -a               # Test fstab
 sudo swapon -a             # Test swap
 
-# 4. Cleanup if needed
-sudo lvremove -f /dev/vg/lv
-sudo vgremove -f vg_name
-sudo pvremove /dev/sdaX
+# Cleanup is destructive. First inspect `lsblk`, `findmnt`, `pvs`, `vgs`, and
+# `lvs`; remove only disposable objects created by this lab after verifying
+# they are unmounted and contain no needed data. Avoid force flags by default.
 ```
 
 ---

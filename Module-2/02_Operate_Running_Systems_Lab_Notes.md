@@ -335,8 +335,9 @@ GRUB_DEFAULT=0
 # After editing /etc/default/grub, regenerate GRUB config:
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
-# Or on UEFI systems:
-sudo grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+# On RHEL 8/9, use the main configuration path for both BIOS and UEFI.
+# Do not overwrite the EFI forwarding stub under /boot/efi/EFI/redhat/.
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ---
@@ -460,8 +461,9 @@ exit           # Leave dracut
 # Mount filesystem as writable:
 mount -o remount,rw /
 
-# Enable network if needed:
-systemctl start network
+# Enable NetworkManager if needed:
+systemctl start NetworkManager
+nmcli device status
 
 # Check system issues:
 journalctl
@@ -471,20 +473,16 @@ systemctl status
 
 ### SELinux Considerations
 
+When resetting a password with `rd.break`, keep SELinux enabled. After changing
+the password inside the chroot, request a relabel before rebooting:
+
 ```bash
-# When changing root password via rd.break:
-# SELinux may prevent boot because context is wrong
-
-# Disable SELinux temporarily:
-# In GRUB edit line, add: selinux=0
-
-# Or use enforcing parameter:
-# linux ... selinux=0 rd.break
-
-# After fixing and rebooting:
-# SELinux will relabel filesystem automatically
-# System may take longer to boot on first reboot
+touch /.autorelabel
 ```
+
+The first boot can take longer while SELinux relabels files. Do not add
+`selinux=0` as a password-reset workaround; it disables SELinux and is not
+needed for the standard RHEL 8/9 recovery procedure.
 
 ---
 

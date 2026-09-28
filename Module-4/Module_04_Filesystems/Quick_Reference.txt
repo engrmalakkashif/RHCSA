@@ -11,13 +11,13 @@ Create ext4 Filesystem:
   sudo mkfs -t ext4 /dev/sdb1
   sudo mkfs.ext4 /dev/sdb1
   sudo mkfs.ext4 -L label /dev/sdb1    # With label
-  sudo mkfs.ext4 -F /dev/sdb1          # Force (bypass checks)
+  # Avoid -F: it bypasses safety checks and may overwrite existing data.
 
 Create XFS Filesystem:
   sudo mkfs -t xfs /dev/sdb1
   sudo mkfs.xfs /dev/sdb1
   sudo mkfs.xfs -L label /dev/sdb1     # With label
-  sudo mkfs.xfs -f /dev/sdb1           # Force
+  # Avoid -f: it bypasses safety checks and may overwrite existing data.
 
 Create VFAT Filesystem:
   sudo mkfs -t vfat /dev/sdb1
@@ -264,7 +264,7 @@ Change Permissions (Symbolic):
 Change Permissions (Numeric):
   chmod 644 file.txt                   # rw-r--r--
   chmod 755 file.txt                   # rwxr-xr-x
-  chmod 777 file.txt                   # rwxrwxrwx
+  # Avoid mode 777; grant only the required owner/group permissions.
   chmod 600 file.txt                   # rw-------
 
 Change Ownership:

@@ -1,0 +1,69 @@
+================================================================================
+RHCSA MODULE 9: MANAGE USERS AND GROUPS
+Quick Reference
+================================================================================
+
+IDENTITY LOOKUP
+---------------
+getent passwd USER                Resolve user entry through NSS
+getent group GROUP                Resolve group entry
+id USER                           UID, primary GID, supplementary groups
+whoami                            Current effective username
+useradd -D                        Show default useradd settings
+
+USERS
+-----
+sudo useradd -m -s /bin/bash USER Create user, home, shell
+sudo usermod -c "Name" USER       Set comment field
+sudo usermod -s SHELL USER        Change login shell
+sudo usermod -u UID USER          Change UID
+sudo usermod -d HOME -m USER      Move/rename home
+sudo usermod -g GROUP USER        Set primary group
+sudo usermod -aG GROUP USER       Append supplementary group (keep existing)
+sudo userdel USER                 Delete account; inspect home first
+sudo userdel -r USER              Delete account and home/mail data (destructive)
+
+PASSWORDS AND AGING
+-------------------
+sudo passwd USER                  Set/change password interactively
+sudo passwd -S USER               Password status
+sudo passwd -l USER               Lock password authentication
+sudo passwd -u USER               Unlock password hash
+sudo chage -l USER                List aging values
+sudo chage -m DAYS USER           Minimum age
+sudo chage -M DAYS USER           Maximum age
+sudo chage -W DAYS USER           Warning period
+sudo chage -I DAYS USER           Inactive after password expires
+sudo chage -E YYYY-MM-DD USER     Account expiration
+
+GROUPS
+------
+sudo groupadd GROUP              Create group
+sudo groupadd -g GID GROUP        Create with GID
+sudo groupmod -n NEW OLD          Rename group
+sudo groupmod -g GID GROUP        Change group ID
+sudo groupdel GROUP               Delete group (not a primary group)
+sudo gpasswd -a USER GROUP        Add supplementary member
+sudo gpasswd -d USER GROUP        Remove member
+getent group GROUP                Inspect membership
+
+SUDO
+----
+sudo usermod -aG wheel USER       Add to standard admin group (policy dependent)
+sudo visudo                       Edit main sudoers safely
+sudo visudo -f /etc/sudoers.d/FILE Edit drop-in safely
+sudo visudo -c                    Validate syntax
+sudo -l -U USER                   List user's sudo rules
+stat -c '%U %G %a %n' FILE        Check owner/group/mode
+
+Example group rule:
+%ops ALL=(ALL) ALL
+Use task-specified privileges. Do not add NOPASSWD unless required.
+Set drop-in owner root and mode 0440; validate with visudo -c.
+
+PERSISTENCE AND VERIFICATION
+----------------------------
+id USER; getent passwd USER; getent group GROUP
+chage -l USER; passwd -S USER
+New supplementary groups take effect at a new login session.
+Never edit /etc/passwd, /etc/shadow, or /etc/group by hand.

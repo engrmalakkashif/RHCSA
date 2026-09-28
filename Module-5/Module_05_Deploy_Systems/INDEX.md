@@ -333,16 +333,16 @@ sudo systemctl get-default
 - Update management
 - Kernel updates
 - Security updates
-- Automatic updates with yum-cron
+- Automatic updates with dnf-automatic
 - System cleanup
 
 **Essential Commands:**
 ```bash
 df -h
 free -h
-yum check-update
-sudo yum update
-sudo yum update --security
+dnf check-update
+sudo dnf upgrade
+sudo dnf upgrade --security
 uname -r
 sudo journalctl -p err
 ```
@@ -367,9 +367,9 @@ sudo journalctl -p err
 3. Create cron jobs (crontab -e)
 4. Enable/disable services (systemctl)
 5. Set default boot target (systemctl set-default)
-6. Install/remove packages (yum install/remove)
+6. Install/remove packages (dnf install/remove)
 7. Regenerate GRUB config
-8. Check for updates (yum check-update)
+8. Check for updates (dnf check-update)
 9. View service logs (journalctl -u)
 10. Configure DNS
 
@@ -379,7 +379,7 @@ sudo journalctl -p err
 3. Set hostname (hostnamectl)
 4. Reload service config (systemctl reload)
 5. Switch boot targets (systemctl isolate)
-6. Search packages (yum search)
+6. Search packages (dnf search)
 7. Enable/disable repositories
 8. Add kernel parameters (grubby)
 9. Update kernel
@@ -391,7 +391,7 @@ sudo journalctl -p err
 3. crontab access control
 4. Subscription management
 5. BIOS vs UEFI GRUB
-6. Yum-cron setup
+6. dnf-automatic timer setup
 7. Package groups
 8. GRUB menu options
 9. System journal management

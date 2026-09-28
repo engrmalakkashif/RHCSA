@@ -1,0 +1,15 @@
+RHCSA MODULE 10: MANAGE SECURITY
+===============================
+Status: Study material created
+
+Topics: umask, SSH keys, SELinux modes and contexts, restorecon, fcontext,
+port labels, booleans, persistence checks.
+
+Files:
+- ../10_Manage_Security_Lab_Notes.md
+- INDEX.md
+- Lab_Exercises.md
+- Quick_Reference.txt
+- MODULE_10_SUMMARY.md
+
+Study time: 12-16 hours

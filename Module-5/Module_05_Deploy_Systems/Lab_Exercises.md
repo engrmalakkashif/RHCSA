@@ -749,7 +749,7 @@ sudo yum update
 sudo yum update git
 
 # Check for security updates only
-yum list updates | grep -i security
+dnf updateinfo list --security
 ```
 
 **Step 6: List Installed Packages**
@@ -991,8 +991,8 @@ GRUB_TIMEOUT=10
 # Modify GRUB_DEFAULT (set to 1)
 GRUB_DEFAULT=1
 
-# Add kernel parameter (disable SELinux for testing)
-GRUB_CMDLINE_LINUX="quiet rhgb selinux=0"
+# Add a harmless kernel parameter for the lab
+GRUB_CMDLINE_LINUX="quiet rhgb systemd.log_level=warning"
 
 # Save and exit
 ```
@@ -1003,8 +1003,9 @@ GRUB_CMDLINE_LINUX="quiet rhgb selinux=0"
 # For BIOS systems
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
-# For UEFI systems
-sudo grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+# RHEL 8/9 uses this main configuration path for BIOS and UEFI.
+# Do not overwrite the EFI forwarding stub.
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # Should show "Generating grub configuration from /etc/default/grub..."
 ```
@@ -1012,8 +1013,8 @@ sudo grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 **Step 5: Verify GRUB Configuration Generated**
 
 ```bash
-# Check if new config contains our changes
-sudo grep -i "selinux" /boot/grub2/grub.cfg
+# Check generated kernel command-line options
+sudo grep -E "systemd.log_level|linux.*quiet" /boot/grub2/grub.cfg
 
 # Check timeout setting
 sudo grep "timeout" /boot/grub2/grub.cfg
@@ -1054,8 +1055,8 @@ sudo grubby --info=ALL | grep -c "debug"
 # Show first 50 lines of generated config
 head -50 /boot/grub2/grub.cfg
 
-# Search for specific parameters
-grep -i "selinux" /boot/grub2/grub.cfg
+# Search for the harmless parameter used in this exercise
+grep -F "systemd.log_level=warning" /boot/grub2/grub.cfg
 
 # Count number of menu entries
 sudo grubby --info=ALL | grep "title" | wc -l
@@ -1065,7 +1066,7 @@ sudo grubby --info=ALL | grep "title" | wc -l
 
 - [ ] Original GRUB config backed up
 - [ ] GRUB configuration file modified correctly
-- [ ] Kernel parameters added (selinux=0)
+- [ ] Harmless kernel parameter added and verified
 - [ ] GRUB config regenerated
 - [ ] New config contains changes
 - [ ] grubby shows kernel entries
@@ -1078,12 +1079,12 @@ sudo grubby --info=ALL | grep "title" | wc -l
 $ cat /etc/default/grub
 GRUB_TIMEOUT=10
 GRUB_DEFAULT=1
-GRUB_CMDLINE_LINUX="quiet rhgb selinux=0"
+GRUB_CMDLINE_LINUX="quiet rhgb systemd.log_level=warning"
 
 $ sudo grubby --info=ALL | head -5
 index=0
 kernel=/boot/vmlinuz-5.14.0-162.el9.x86_64
-args="selinux=0 quiet rhgb"
+args="systemd.log_level=warning quiet rhgb"
 ```
 
 ### Integration Lab Extension

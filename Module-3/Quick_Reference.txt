@@ -52,7 +52,7 @@ MODULE 3: CONFIGURE LOCAL STORAGE - QUICK REFERENCE GUIDE
 │  Remove Physical Volume:                                                     │
 │  sudo pvmove /dev/sda3          - Move data from PV                         │
 │  sudo vgreduce vg_name /dev/sda3    - Remove PV from VG                     │
-│  sudo pvremove /dev/sda3        - Remove PV metadata                        │
+│  sudo pvremove /dev/sda3        - Remove empty, unused PV metadata only     │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
 
@@ -84,8 +84,8 @@ MODULE 3: CONFIGURE LOCAL STORAGE - QUICK REFERENCE GUIDE
 │                                                                              │
 │  Remove Volume Group:                                                        │
 │  sudo vgremove vg_storage       - Remove entire VG                          │
-│  sudo vgremove -f vg_storage    - Force removal                             │
-│  Note: All LVs must be removed first                                        │
+│  Destructive: verify data, mounts, and LVs before vgremove.                 │
+│  Avoid force flags; remove only a disposable VG.                            │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
 
@@ -327,7 +327,7 @@ Problem: Mount fails on boot with new fstab entry
   Solution: Test with 'sudo mount -a', check UUID with 'blkid'
 
 Problem: Physical volume already exists
-  Solution: Use pvremove to remove old metadata, then pvcreate
+  Solution: Inspect with pvs, pvdisplay, and lsblk; do not remove an existing PV unless it is verified empty and disposable
 
 Problem: Can't reduce logical volume
   Solution: Check if XFS (can't shrink); backup data; umount first

@@ -102,11 +102,17 @@ f2
 
 ## 3. Set Permissions
 
-For a simple lab, you can use:
+For the isolated disposable lab only, create a shared group with a matching
+GID on server and client, assign the export directory to that group, and use
+setgid group permissions. This avoids making the export world-writable:
 
 ```bash
-sudo chmod 777 /share
+sudo chgrp nfs-share /share
+sudo chmod 2770 /share
 ```
+
+All intended users must belong to the matching `nfs-share` group. Avoid
+`chmod 777`; it grants every local and remote user write access.
 
 Check:
 
@@ -898,7 +904,8 @@ sudo apt install nfs-kernel-server -y
 sudo mkdir -p /share
 sudo touch /share/f1
 sudo touch /share/f2
-sudo chmod 777 /share
+sudo chgrp nfs-share /share
+sudo chmod 2770 /share
 ```
 
 ### Configure export

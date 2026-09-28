@@ -1,0 +1,76 @@
+================================================================================
+RHCSA MODULE 8: MANAGE BASIC NETWORKING
+Quick Reference
+================================================================================
+
+INSPECT
+-------
+ip -brief address                  Addresses by interface
+ip route                           IPv4 routes
+ip -6 address                      IPv6 addresses
+ip -6 route                       IPv6 routes
+nmcli device status                Devices and state
+nmcli connection show              Saved profiles
+nmcli connection show --active     Active profiles
+nmcli device show DEVICE           Device details
+
+NMCLI: IPV4
+-----------
+nmcli connection modify PROFILE ipv4.method auto
+nmcli connection modify PROFILE ipv4.method manual
+nmcli connection modify PROFILE ipv4.addresses "IP/PREFIX"
+nmcli connection modify PROFILE ipv4.gateway "GATEWAY"
+nmcli connection modify PROFILE ipv4.dns "DNS1 DNS2"
+nmcli connection modify PROFILE connection.autoconnect yes
+nmcli connection up PROFILE        Activate profile
+nmcli connection down PROFILE     Deactivate profile (may disconnect you)
+
+NMCLI: IPV6
+-----------
+ipv6.method auto                  SLAAC/DHCPv6 as available
+ipv6.method manual                Static address configuration
+nmcli connection modify PROFILE ipv6.addresses "ADDR/PREFIX"
+nmcli connection modify PROFILE ipv6.gateway "GATEWAY"
+nmcli connection modify PROFILE ipv6.dns "DNS"
+ip -6 address; ip -6 route       Verify active IPv6 state
+
+HOSTNAME AND RESOLUTION
+-----------------------
+hostnamectl                       Show hostname information
+sudo hostnamectl set-hostname NAME Set persistent hostname
+getent hosts NAME                 Resolve using NSS configuration
+getent ahosts NAME                Show address results
+/etc/hosts                        Local static mappings
+/etc/nsswitch.conf                NSS lookup order
+Configure DNS through nmcli profile; resolv.conf may be generated.
+
+SERVICES
+--------
+sudo systemctl enable --now NetworkManager
+systemctl is-enabled UNIT         Boot startup state
+systemctl is-active UNIT          Current runtime state
+nmcli connection show PROFILE     Check saved profile/autoconnect
+
+FIREWALLD
+---------
+sudo firewall-cmd --state
+sudo firewall-cmd --get-active-zones
+sudo firewall-cmd --get-default-zone
+sudo firewall-cmd --zone=ZONE --list-all
+sudo firewall-cmd --permanent --zone=ZONE --add-service=SERVICE
+sudo firewall-cmd --permanent --zone=ZONE --add-port=PORT/tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --permanent --zone=ZONE --remove-service=SERVICE
+sudo firewall-cmd --permanent --zone=ZONE --remove-port=PORT/tcp
+
+Permanent rules require reload to affect runtime. Verify saved and active rules.
+Open only requested services/ports; don't flush rules or disable the firewall.
+
+PERSISTENCE
+-----------
+Profile settings: nmcli connection show PROFILE
+Address/route: ip address; ip route; ip -6 route
+Resolver: getent hosts NAME
+Startup: systemctl is-enabled UNIT
+Firewall saved: firewall-cmd --permanent --zone=ZONE --list-all
+Firewall active: firewall-cmd --zone=ZONE --list-all

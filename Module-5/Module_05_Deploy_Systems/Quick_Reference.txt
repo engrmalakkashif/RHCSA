@@ -320,9 +320,9 @@ sudo yum history redo 5            Redo transaction 5
 
 SECURITY UPDATES
 ----------------
-yum list updates                   List available updates
-sudo yum update --security         Install security updates only
-yum check-update --security        Check for security updates
+dnf list --updates                 List available updates
+sudo dnf upgrade --security        Install security updates only
+dnf updateinfo list --security     List security advisories
 
 CACHE MANAGEMENT
 ----------------
@@ -377,8 +377,8 @@ GRUB_DISABLE_SUBMENU=true          Disable submenu
 
 REGENERATING GRUB CONFIGURATION
 --------------------------------
-sudo grub2-mkconfig -o /boot/grub2/grub.cfg (BIOS)
-sudo grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg (UEFI)
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg (RHEL 8/9, BIOS and UEFI)
+Do not overwrite /boot/efi/EFI/redhat/grub.cfg; it is an EFI forwarding stub.
 
 GRUBBY COMMAND
 --------------
@@ -390,7 +390,7 @@ sudo grubby --update-kernel=ALL --remove-args="PARAM"
 
 BOOT PARAMETERS
 ---------------
-selinux=0                          Disable SELinux
+# Avoid selinux=0; use setenforce/config only when a task requires permissive.
 systemd.unit=rescue.target         Boot to rescue mode
 systemd.unit=emergency.target      Boot to emergency mode
 debug                              Enable debug output
@@ -454,26 +454,25 @@ sudo grubby --info=ALL             Show GRUB kernel entries
 
 SECURITY UPDATES
 ----------------
-yum list updates                   List available updates
-yum list updates | grep -i security Show security updates
-sudo yum update --security         Install security updates
-yum check-update --security        Check security updates
+dnf list --updates                 List available updates
+dnf updateinfo list --security     List security advisories
+sudo dnf upgrade --security        Install security updates
+dnf updateinfo summary --security  Summarize available advisories
 
 CLEANUP
 -------
-sudo yum clean all                 Clean package cache
-sudo yum autoremove                Remove unused packages
-sudo rm -rf /tmp/*                 Clean temp files
-sudo rm -rf /var/tmp/*             Clean var temp
+sudo dnf clean all                 Clean package cache
+sudo dnf autoremove                Review transaction before confirming
+# Do not blindly delete /tmp, /var/tmp, or old logs; use tmpfiles/logrotate.
 sudo journalctl --vacuum=1G        Limit journal to 1GB
 
-AUTOMATIC UPDATES (YUM-CRON)
-----------------------------
-sudo yum install yum-cron          Install yum-cron
-sudo systemctl enable yum-cron     Enable on boot
-sudo systemctl start yum-cron      Start service
-sudo vi /etc/yum/yum-cron.conf     Configure auto-updates
-apply_updates = yes                Enable auto-apply
+AUTOMATIC UPDATES (DNF-AUTOMATIC, RHEL 8/9)
+-------------------------------------------
+sudo dnf install dnf-automatic
+sudo systemctl enable --now dnf-automatic.timer
+sudo systemctl status dnf-automatic.timer
+sudo vi /etc/dnf/automatic.conf     Configure automatic updates
+apply_updates = yes                Enable auto-apply after reviewing policy
 
 ================================================================================
 SUMMARY OF MOST IMPORTANT COMMANDS

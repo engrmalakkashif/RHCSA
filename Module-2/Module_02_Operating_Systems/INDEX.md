@@ -74,18 +74,16 @@ This module covers system operation including:
 ### 3. Lab Exercises
 **File:** `Lab_Exercises.md`
 
-#### 9 Complete Labs:
+#### 9 Labs:
 1. **Boot, Reboot, Shutdown** - Practice graceful operations
 2. **Boot Targets** - Switch between targets
-3. **Boot Interruption** - Reset root password
-4. **Process Management** - Monitor and kill processes
-5. **Process Priorities** - Adjust nice values
-6. **Tuning Profiles** - Switch performance profiles
-7. **System Logs** - Query journal entries
-8. **Persistent Journals** - Enable storage
-9. **Service Management** - Control services
-10. **Secure Transfer** - SCP and RSYNC
-11. **Integration Lab** - Combine all topics
+3. **Boot Interruption** - Recover a lab root password with SELinux relabeling
+4. **Process Management and Priorities** - Monitor, terminate, and schedule processes
+5. **Tuning Profiles** - Switch performance profiles
+6. **System Logs and Journalctl** - Query system logs
+7. **Persistent Journals** - Enable journal storage
+8. **Service Management** - Control network services with systemd
+9. **Secure Transfer** - Use SCP/RSYNC between authorized systems
 
 #### Each Lab Includes:
 - Clear objectives
@@ -281,7 +279,7 @@ Module_02_Operating_Systems/
 - **Module 5** - Network services introduced here
 - **Module 6** - User-related process management
 - **Module 7** - Security relevant to boot process
-- **Module 10** - Service management continued
+- Securely transfer files between systems (covered in Lab 9)
 
 ### Prerequisite Knowledge
 - Basic Linux command line
@@ -382,7 +380,7 @@ Week 2 (Days 6-10):
 
 Week 3 (Days 11-15):
 - Read Lab Notes sections 8-10
-- Complete Labs 8-10
+- Complete Labs 8-9
 - Full integration lab
 - Self-assessment exam
 

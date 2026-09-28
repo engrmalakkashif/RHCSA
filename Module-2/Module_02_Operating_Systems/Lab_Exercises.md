@@ -276,6 +276,9 @@ dracut> chroot /sysroot
 passwd root
 # Enter new password (twice)
 
+# Request SELinux relabeling before the next boot
+touch /.autorelabel
+
 # 10. Exit chroot
 exit
 

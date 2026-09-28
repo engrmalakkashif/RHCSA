@@ -1,0 +1,78 @@
+================================================================================
+RHCSA MODULE 10: MANAGE SECURITY
+Quick Reference
+================================================================================
+
+UMASK / DEFAULT PERMISSIONS
+---------------------------
+umask                             Show octal mask
+umask -S                          Show symbolic mask
+umask 027                         Current shell: common files 640, dirs 750
+Existing object modes do not change; use chmod for existing paths.
+
+SSH KEY AUTHENTICATION
+----------------------
+ssh-keygen -t ed25519 -C "label"  Generate key pair as login user
+ssh-copy-id USER@HOST             Install public key on target
+ssh USER@HOST                     Test in a second session
+chmod 700 ~/.ssh                  Target directory mode
+chmod 600 ~/.ssh/authorized_keys  Public-key list mode
+chown -R USER:USER ~/.ssh         Correct ownership
+Never copy the private key. Keep old access until the new key is tested.
+
+SELINUX MODE
+------------
+getenforce                        Current mode
+sestatus                          Detailed SELinux state
+sudo setenforce 0                 Runtime permissive
+sudo setenforce 1                 Runtime enforcing
+/etc/selinux/config               Persistent boot-time mode
+setenforce cannot enable SELinux if booted disabled.
+
+CONTEXTS
+--------
+ls -Z PATH                        File contexts
+ps -eZ                            Process contexts
+id -Z                             Current process context
+sudo restorecon -v FILE           Restore one default label
+sudo restorecon -Rv DIRECTORY     Restore labels recursively
+chcon changes are not durable policy rules.
+
+FILE CONTEXT RULES
+------------------
+sudo semanage fcontext -a -t TYPE '/path(/.*)?'
+sudo semanage fcontext -l -C      List local custom file rules
+sudo restorecon -Rv /path         Apply persistent mapping
+
+PORT LABELS
+-----------
+sudo semanage port -l             List port types
+sudo semanage port -l -C           List local custom ports
+sudo semanage port -a -t TYPE -p tcp PORT  Add mapping
+sudo semanage port -m -t TYPE -p tcp PORT  Modify existing mapping only if required
+
+BOOLEANS
+--------
+getsebool -a                      List boolean runtime values
+getsebool BOOLEAN                 Inspect named boolean
+semanage boolean -l               List descriptions and defaults
+sudo setsebool BOOLEAN on         Runtime only
+sudo setsebool -P BOOLEAN on      Persist across reboot
+
+FIREWALL REVIEW (FULL WORKFLOW: MODULE 8)
+-----------------------------------------
+sudo firewall-cmd --state
+sudo firewall-cmd --get-active-zones
+sudo firewall-cmd --zone=ZONE --list-all
+sudo firewall-cmd --permanent --zone=ZONE --add-service=SERVICE
+sudo firewall-cmd --reload
+Verify permanent and runtime rules; allow only explicitly required access.
+
+VERIFICATION
+------------
+getenforce; sestatus
+ls -Z PATH; ps -eZ | grep SERVICE
+semanage fcontext -l -C; semanage port -l -C
+getsebool BOOLEAN
+Inspect /etc/selinux/config for persistent mode. Keep SELinux enforcing unless
+an explicit task says otherwise. Firewall rules are in Module 8.

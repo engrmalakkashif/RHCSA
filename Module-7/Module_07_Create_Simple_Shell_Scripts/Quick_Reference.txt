@@ -1,0 +1,72 @@
+================================================================================
+RHCSA MODULE 7: CREATE SIMPLE SHELL SCRIPTS
+Quick Reference
+================================================================================
+
+SCRIPT BASICS
+-------------
+#!/usr/bin/bash                    Bash interpreter line
+bash script.sh ARG                 Run through Bash
+chmod u+x script.sh                Make executable
+./script.sh ARG                    Run from current directory
+bash -n script.sh                  Syntax check
+bash -x script.sh ARG              Trace execution for debugging
+
+ARGUMENTS AND STATUS
+--------------------
+$0                                 Script name
+$1, $2                             Positional arguments
+"$@"                               All arguments as separate words
+$#                                 Argument count
+$?                                 Previous command's exit status
+exit 0                             Successful completion
+exit 1                             General error; choose meaningful status
+exit 2                             Commonly used for invalid usage
+
+VARIABLES AND OUTPUT
+--------------------
+name=value                         Assignment (no spaces around =)
+"$name" / "${name}"               Quote expansions
+result=$(command)                 Capture standard output
+printf '%s\n' "$value"            Predictable formatted output
+printf 'error\n' >&2              Send diagnostic to stderr
+
+CONDITIONS AND TESTS
+--------------------
+if command; then ...; else ...; fi  Branch on exit status
+[[ -e "$path" ]]                  Path exists
+[[ -f "$path" ]]                  Regular file
+[[ -d "$path" ]]                  Directory
+[[ -L "$path" ]]                  Symbolic link (including broken link)
+[[ -r "$path" ]]                  Readable
+[[ -n "$value" ]]                 Non-empty string
+[[ "$a" == "$b" ]]               String equality
+[[ $count -ge 1 ]]                 Integer comparison
+[ -f "$path" ]                    POSIX test form; spaces around brackets
+
+LOOPS AND INPUT
+---------------
+for item in "$@"; do ...; done    Loop over arguments safely
+for item in one two; do ...; done  Loop over fixed values
+while IFS= read -r line; do ...; done < "$file"
+
+Avoid: for x in $(cat file) or parsing ls output.
+Command substitution strips trailing newlines; use streams for multi-line data.
+
+SAFE PATTERNS
+-------------
+if [[ $# -ne 1 ]]; then
+    printf 'Usage: %s PATH\n' "$0" >&2
+    exit 2
+fi
+
+if getent passwd "$user" >/dev/null 2>&1; then
+    printf 'Found: %s\n' "$user"
+else
+    printf 'Missing: %s\n' "$user" >&2
+fi
+
+CHECKLIST
+---------
+Validate arguments; quote expansions; handle spaces; check command status;
+use stderr for errors; syntax-check with bash -n; test success and failure paths.

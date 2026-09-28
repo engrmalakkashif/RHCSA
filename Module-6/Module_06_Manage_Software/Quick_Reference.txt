@@ -1,0 +1,57 @@
+================================================================================
+RHCSA MODULE 6: MANAGE SOFTWARE
+Quick Reference
+================================================================================
+
+DNF REPOSITORIES
+----------------
+dnf repolist --enabled             List enabled repositories
+dnf repolist --all                 List all repositories
+dnf repoinfo REPO_ID               Show repository details
+dnf info PACKAGE                   Show package information
+dnf search TERM                    Search package metadata
+sudo dnf clean all                 Clear cached metadata
+sudo dnf makecache                 Download repository metadata
+sudo dnf config-manager --set-enabled REPO_ID   Enable (plugin/version dependent)
+
+Repo definitions: /etc/yum.repos.d/*.repo
+Common keys: [id], name=, baseurl= OR metalink= OR mirrorlist=,
+enabled=1|0, gpgcheck=1, gpgkey=URL
+Use only task-provided URLs and keys. Keep GPG verification enabled.
+
+RPM / DNF PACKAGE OPERATIONS
+----------------------------
+sudo dnf install PACKAGE          Install and resolve dependencies
+sudo dnf install ./file.rpm       Install a local RPM with dependency resolution
+sudo dnf remove PACKAGE           Remove package and unneeded dependencies
+sudo dnf reinstall PACKAGE        Reinstall package
+sudo dnf update PACKAGE           Update package
+sudo dnf check                    Check package database/dependency issues
+rpm -q PACKAGE                    Query installed package
+rpm -qa                           List installed packages
+rpm -qi PACKAGE                   Package metadata
+rpm -ql PACKAGE                   Files owned by package
+rpm -qf /path                     Find package owning a file
+rpm -qp file.rpm                  Query an RPM file
+rpm -K file.rpm                   Check package signatures/digests
+rpm -V PACKAGE                    Verify installed package files
+
+FLATPAK
+-------
+flatpak remotes --show-details    List remotes
+flatpak search TERM               Search configured remotes
+flatpak install REMOTE APP_ID     Install application
+flatpak list                      List installed applications
+flatpak info APP_ID               Show app details
+flatpak update APP_ID             Update application
+flatpak uninstall APP_ID          Remove application
+flatpak --user ...                Scope operation to current user
+sudo flatpak ...                  System-wide operation (where supported)
+flatpak remote-add --if-not-exists NAME URL   Add task-approved remote
+
+PERSISTENCE CHECKS
+------------------
+Repo config: /etc/yum.repos.d/*.repo
+Package state: rpm -q PACKAGE; dnf history
+Flatpak state: flatpak list (check user/system scope)
+Always verify with the same scope and account used by the task.

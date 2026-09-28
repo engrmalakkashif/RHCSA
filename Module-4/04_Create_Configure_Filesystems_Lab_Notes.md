@@ -160,9 +160,9 @@ sudo mkfs.ext4 -b 4096 /dev/sdb1
 sudo mkfs.ext4 -i 16384 /dev/sdb1
 # One inode per 16384 bytes
 
-# Force creation (bypass safety checks)
+# DESTRUCTIVE: -F bypasses safety checks and may overwrite an existing filesystem.
+# Use only when the task explicitly requires it on a verified disposable device.
 sudo mkfs.ext4 -F /dev/sdb1
-# ⚠️ Use with caution
 ```
 
 ### Creating XFS Filesystem
@@ -184,9 +184,9 @@ sudo mkfs.xfs -L mydata /dev/sdb1
 sudo mkfs.xfs -s size=4096 /dev/sdb1
 # Sector size: 4096
 
-# Force creation
+# DESTRUCTIVE: -f bypasses safety checks and may overwrite an existing filesystem.
+# Use only when the task explicitly requires it on a verified disposable device.
 sudo mkfs.xfs -f /dev/sdb1
-# ⚠️ Use with caution
 ```
 
 ### Creating VFAT Filesystem
@@ -693,8 +693,11 @@ NFS (Network File System) allows mounting remote filesystems over a network.
 # NFS server configuration
 sudo vim /etc/exports
 # Add export lines:
-# /export/data    192.168.1.0/24(rw,sync,no_root_squash)
+# /export/data    192.168.1.0/24(rw,sync,root_squash)
 # /export/shared  *(ro)
+
+# `root_squash` is the safer default: remote root is mapped to an unprivileged
+# identity. Use `no_root_squash` only for a narrowly justified, isolated lab.
 
 # Start NFS service
 sudo systemctl start nfs-server

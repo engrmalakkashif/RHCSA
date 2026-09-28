@@ -2571,17 +2571,16 @@ chmod 755 script.sh             # rwxr-xr-x (scripts, executables)
 chmod 644 file.txt              # rw-r--r-- (files, documents)
 chmod 600 secret.txt            # rw------- (private files)
 chmod 700 private_dir           # rwx------ (private directory)
-chmod 777 public_dir            # rwxrwxrwx (everyone full access)
+chmod 777 public_dir            # rwxrwxrwx (unsafe: everyone can modify)
 chmod 640 config.conf           # rw-r----- (read for group)
 chmod 660 shared.txt            # rw-rw---- (group writable)
 chmod 444 readonly.txt          # r--r--r-- (read only)
 chmod 000 blocked.txt           # --------- (no access)
 
-# Application
-chmod 755 /usr/bin/program      # Executable for all
-chmod 600 /etc/password         # Private password file
-chmod 700 /root                 # Root home directory
-chmod 777 /tmp                  # Temporary directory
+# Standard shared temporary directories use the sticky bit (mode 1777), not
+# plain 777. These commands illustrate modes; do not change system paths during
+# practice. Use disposable files/directories instead.
+chmod 1777 /tmp                 # Standard shared temporary directory mode
 ```
 
 ### Default Permissions (umask)
