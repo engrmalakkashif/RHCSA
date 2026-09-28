@@ -1,7 +1,7 @@
 # RHCSA Module 6: Manage Software
 ## Comprehensive Lab Notes & Reference Guide
 
-This module covers repository configuration and RPM/Flatpak package operations. Shell scripting is covered separately in [Module 7](../Module-7/07_Create_Simple_Shell_Scripts_Lab_Notes.md). Package availability and repository names depend on the lab image and subscription; verify before installing.
+This module covers repository configuration and RPM/Flatpak package operations. Shell scripting is covered separately in [Module 7](../Module-07-Create-Simple-Shell-Scripts/07_Create_Simple_Shell_Scripts_Lab_Notes.md). Package availability and repository names depend on the lab image and subscription; verify before installing.
 
 ## Contents
 1. Repository and package concepts

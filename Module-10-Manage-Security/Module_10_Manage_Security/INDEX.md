@@ -20,7 +20,7 @@ Configure default permissions, SSH public-key authentication, and SELinux state 
 5. Persistent file-context rules
 6. SELinux port labels
 7. SELinux booleans
-8. firewalld review and least-privilege rules ([full procedure in Module 8](../../Module-8/Module_08_Manage_Basic_Networking/INDEX.md))
+8. firewalld review and least-privilege rules ([full procedure in Module 8](../../Module-08-Manage-Basic-Networking/Module_08_Manage_Basic_Networking/INDEX.md))
 
 ## Learning Paths
 - **Beginner (3–4 days):** Study umask and SSH, then SELinux mode, labels, ports, and booleans; complete all labs.

@@ -2,7 +2,7 @@
 ## Study Index
 
 ## Overview
-This module addresses software repositories and package operations (RPM/DNF and Flatpak). Shell scripting is a separate module: [Module 7: Create Simple Shell Scripts](../../Module-7/Module_07_Create_Simple_Shell_Scripts/INDEX.md).
+This module addresses software repositories and package operations (RPM/DNF and Flatpak). Shell scripting is a separate module: [Module 7: Create Simple Shell Scripts](../../Module-07-Create-Simple-Shell-Scripts/Module_07_Create_Simple_Shell_Scripts/INDEX.md).
 
 **Recommended study time:** 6-8 hours
 

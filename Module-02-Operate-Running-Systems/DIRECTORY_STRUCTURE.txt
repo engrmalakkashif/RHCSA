@@ -1,45 +1,45 @@
 RHCSA MODULE DIRECTORY MAP
 ==========================
 
-Module-1: Essential tools
+Module-01-Understand-and-Use-Essential-Tools: Essential tools
   01_Essential_Tools_Lab_Notes.md
   Module_01_Essential_Tools/ (INDEX, labs, quick reference, summary, status)
 
-Module-2: Operate running systems
+Module-02-Operate-Running-Systems: Operate running systems
   02_Operate_Running_Systems_Lab_Notes.md
   Module_02_Operating_Systems/ (INDEX, labs, quick reference)
   MODULE_2_SUMMARY.md, COMPLETION_REPORT.md
 
-Module-3: Configure local storage
+Module-03-Configure-Local-Storage: Configure local storage
   03_Configure_Local_Storage_Lab_Notes.md
   INDEX.md, Lab_Exercises.md, Quick_Reference.txt
   MODULE_3_SUMMARY.md, MODULE_3_DELIVERY_REPORT.txt, Module_3_Status.txt
 
-Module-4: Create and configure filesystems
+Module-04-Create-and-Configure-Filesystems: Create and configure filesystems
   04_Create_Configure_Filesystems_Lab_Notes.md
   Module_04_Filesystems/ (INDEX, labs, quick reference, summary, status)
 
-Module-5: Deploy, configure, and maintain systems
+Module-05-Deploy-Configure-and-Maintain-Systems: Deploy, configure, and maintain systems
   05_Deploy_Configure_Maintain_Lab_Notes.md
   Module_05_Deploy_Systems/ (INDEX, labs, quick reference, summary, status)
 
-Module-6: Manage software
+Module-06-Manage-Software: Manage software
   06_Manage_Software_Lab_Notes.md
   Module_06_Manage_Software/ (INDEX, labs, quick reference, summary, status)
 
-Module-7: Create simple shell scripts
+Module-07-Create-Simple-Shell-Scripts: Create simple shell scripts
   07_Create_Simple_Shell_Scripts_Lab_Notes.md
   Module_07_Create_Simple_Shell_Scripts/ (INDEX, labs, quick reference, summary, status)
 
-Module-8: Manage basic networking
+Module-08-Manage-Basic-Networking: Manage basic networking
   08_Manage_Basic_Networking_Lab_Notes.md
   Module_08_Manage_Basic_Networking/ (INDEX, labs, quick reference, summary, status)
 
-Module-9: Manage users and groups
+Module-09-Manage-Users-and-Groups: Manage users and groups
   09_Manage_Users_Groups_Lab_Notes.md
   Module_09_Manage_Users_Groups/ (INDEX, labs, quick reference, summary, status)
 
-Module-10: Manage security
+Module-10-Manage-Security: Manage security
   10_Manage_Security_Lab_Notes.md
   Module_10_Manage_Security/ (INDEX, labs, quick reference, summary, status)
 
