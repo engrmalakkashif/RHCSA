@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# ========================================
+#       LINUX SERVER HEALTH CHECK
+#       Created by Kashif Khan
+# ========================================
+
+# Default threshold = 80%
+LIMIT=${1:-80}
+
+echo "========================================"
+echo "       LINUX SERVER HEALTH CHECK"
+echo "========================================"
+echo "======= Created by Kashif Khan ========="
+echo
+echo "Hostname    : $(hostname)"
+echo "Date        : $(date)"
+echo "Threshold   : ${LIMIT}%"
+
+# ========================================
+# Disk Usage
+# ========================================
+
+echo
+echo "Disk Usage:"
+df -h /
+
+disk_usage=$(df -h / | awk 'NR==2 {print $5}' | tr -d '%')
+
+if [ "$disk_usage" -ge "$LIMIT" ]; then
+    echo "Disk Status : WARNING ($disk_usage%)"
+else
+    echo "Disk Status : OK ($disk_usage%)"
+fi
+
+# ========================================
+# Memory Usage
+# ========================================
+
+echo
+echo "Memory Usage:"
+free -h
+
+memory_usage=$(free | awk '/Mem:/ {printf "%.0f\n", $3/$2 * 100}')
+
+if [ "$memory_usage" -ge "$LIMIT" ]; then
+    echo "Memory Status: WARNING ($memory_usage%)"
+else
+    echo "Memory Status: OK ($memory_usage%)"
+fi
+
+# ========================================
+# System Uptime & Load
+# ========================================
+
+echo
+echo "System Uptime:"
+uptime
+
+load=$(uptime | awk -F'load average:' '{print $2}' | cut -d',' -f1 | xargs)
+
+if awk "BEGIN {exit !($load >= 2)}"; then
+    echo "Load Status : WARNING ($load)"
+else
+    echo "Load Status : OK ($load)"
+fi
+
+# ========================================
+# SSH Service
+# ========================================
+
+echo
+echo "SSH Service:"
+
+systemctl is-active --quiet ssh
+
+if [ $? -eq 0 ]; then
+    echo "SSH Status : OK (RUNNING)"
+else
+    echo "SSH Status : CRITICAL (STOPPED)"
+fi
+
+echo
+echo "========================================"
+echo "          HEALTH CHECK COMPLETE"
+echo "========================================"
